@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>HTML Home</title>
+<link href="HomeIcon.png" rel="icon" type="image/png"/>
+<style>
+	body {
+		margin: 0;
+		margin-bottom: 50px;
+		font-family: Arial, Helvetica, sans-serif;
+		background: #121212;
+		color: #e0e0e0;
+	}
+	nav {
+		background: #181818;
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+		padding: 12px;
+		border-bottom: 1px solid #333;
+	}
+	nav a {
+		color: #bbbbbb;
+		text-decoration: none;
+		font-weight: bold;
+		transition: color 0.3s;
+	}
+	nav a:hover {
+		color: #00bcd4;
+	}
+	footer {
+		background: #1f1f1f;
+		color: #aaaaaa;
+		text-align: center;
+		padding: 12px;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border-top: 1px solid #333;
+	}
+	folderbar button {
+		font-size: 24px;
+		background-color: #111111;
+		color: #aaaaaa;
+		border: none;
+		border-radius: 18px;
+		white-space: nowrap;
+	}
+	folderbar {
+		display: flex;
+		padding: 16px;
+		max-width: calc(100% - 32px);
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+	folderbar .label{
+		font-size: 24px;
+		color: #aaaaaa;
+		border: none;
+		white-space: nowrap;
+		margin-right: 8px;
+		text-align: left;
+		max-width: 256px;
+		width: 256px;
+		overflow: hidden;
+		background-color: #222222;
+	}
+	folderbar .label span {
+		display: inline-block;
+		transform: rotate(90deg);
+	}
+	.selected {
+		background-color: #234234;
+	}
+	gb {
+		display:flex;
+		flex-direction: column;
+		overflow: auto;
+		max-height: 205px;
+	}
+	folder a {
+		display: flex;
+		flex-direction: column;
+		margin: 7px;;
+		max-width: 320px;
+	}
+	folder a img {
+		height: 180px;
+		width: 320px;
+	}
+	folder a label {
+		font-size: 16px;
+		color: white;
+		text-decoration: none;
+		margin-top: 12px;
+		font-family: "Roboto", "Arial", sans-serif;
+		font-weight: 600;
+		line-height: 1.3;
+		letter-spacing: 0.5px;
+		max-height: 66px;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		-webkit-line-clamp: 2;
+	}
+	line, lines {
+		max-width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	.show {
+		display: block;
+	}
+	.hide {
+		 display: none;
+	}
+    </style>
+</head>
+<body>
+	<nav>
+		<a href="Home.html">Home</a>
+		<a href="Games.html">Games</a>
+		<a href="Content.html">Content</a>
+		<a href="Calendar.html">Calendar</a>
+	</nav>
+	<folderbar id="main">
+		<button class="label" onclick="gb.className = (gb.className == 'hide') ? 'show' : 'hide';"><span>&gt;&gt;</span>1.Local</button>
+		<button class="selected" onclick="SwitchFolder('Watch Later')" tr="Watch Later">Watch Later</button>
+		<button onclick="SwitchFolder('Surah')" tr="Surah">Surah</button>
+		<button onclick="SwitchFolder('Music')" tr="Music">Music</button>
+		<button onclick="SwitchFolder('Unique')" tr="Unique">Unique</button>
+		<button onclick="SwitchFolder('Recordings')" tr="Recordings">Recordings</button>
+	</folderbar>
+	<folderbar class="hide" id="gb">
+		<gb>
+			<g id="1.Local">
+				<button class="label" onclick="SwitchGroup(0); gb.className = (gb.className == 'hide') ? 'show' : 'hide';"><span>&gt;&gt;</span>1.Local</button>
+				<button onclick="SwitchGroup(0); SwitchFolder('Watch Later')" tr="Watch Later">Watch Later</button>
+				<button onclick="SwitchGroup(0); SwitchFolder('Surah')" tr="Surah">Surah</button>
+				<button onclick="SwitchGroup(0); SwitchFolder('Music')" tr="Music">Music</button>
+				<button onclick="SwitchGroup(0); SwitchFolder('Unique')" tr="Unique">Unique</button>
+				<button onclick="SwitchGroup(0); SwitchFolder('Recordings')" tr="Recordings">Recordings</button>
+			</g>
+			<g id="Local2">
+				<button class="label" onclick="SwitchGroup(1); gb.className = (gb.className == 'hide') ? 'show' : 'hide';"><span>&gt;&gt;</span>2.Loca2</button>
+				<button onclick="SwitchGroup(1); SwitchFolder('Music2')" tr="Music2">Music2</button>
+				<button onclick="SwitchGroup(1); SwitchFolder('Unique2')" tr="Unique2">Unique2</button>
+				<button onclick="SwitchGroup(1); SwitchFolder('Recordings2')" tr="Recordings2">Recordings2</button>
+			</g>
+		</gb>
+	</folderbar>
+	<folder>
+		<div class="show" id="Watch Later">
+			<line>
+	<a href="downloads\সূরা মুজাম্মিল(المزمل‎) - একজন প্রকৃত মুমিনের রাতের ইবাদত । Recited by Abdul Rahman Mosad.mp4">
+        <img src="downloads\সূরা মুজাম্মিল(المزمل‎) - একজন প্রকৃত মুমিনের রাতের ইবাদত । Recited by Abdul Rahman Mosad.webp" width="120">
+        <label>সূরা মুজাম্মিল(المزمل‎) - একজন প্রকৃত মুমিনের রাতের ইবাদত । Recited by Abdul Rahman Mosad</label>
+    </a>
+			</line>
+		</div>
+		<div class="hide" id="Surah">
+			<lines>
+			
+    <a href="downloads\সূরা মুজাম্মিল(المزمل‎) - একজন প্রকৃত মুমিনের রাতের ইবাদত । Recited by Abdul Rahman Mosad.mp4">
+        <img src="downloads\সূরা মুজাম্মিল(المزمل‎) - একজন প্রকৃত মুমিনের রাতের ইবাদত । Recited by Abdul Rahman Mosad.webp" width="120">
+        <label>সূরা মুজাম্মিল(المزمل‎) - একজন প্রকৃত মুমিনের রাতের ইবাদত । Recited by Abdul Rahman Mosad</label>
+    </a>
+    
+    <a href="downloads\সূরা হাদীদ- মানসিক চাপমুক্তির জন্য সুন্দর তেলাওয়াত | BEST RECITATION Surah Al-Hadid ( سورة الحديد).mp4">
+        <img src="downloads\সূরা হাদীদ- মানসিক চাপমুক্তির জন্য সুন্দর তেলাওয়াত ｜ BEST RECITATION Surah Al-Hadid ( سورة الحديد).webp" width="120">
+        <label>সূরা হাদীদ- মানসিক চাপমুক্তির জন্য সুন্দর তেলাওয়াত | BEST RECITATION Surah Al-Hadid ( سورة الحديد)</label>
+    </a>
+    
+    <a href="downloads\Surah Mulk.mp4">
+        <img src="downloads\Surah Mulk.webp" width="120">
+        <label>Surah Mulk / সূরা মূলক ( Tarawih style ) سورة الملك |Shamsul HaQue</label>
+    </a>
+    
+    <a href="downloads\তারাবি সুরে সূরা আল কাহফ তেলাওয়াত। HEALING SURAH AL KAHF الكهف  By @shamsul_haque.mp4">
+        <img src="downloads\তারাবি সুরে সূরা আল কাহফ তেলাওয়াত। HEALING SURAH AL KAHF الكهف  By @shamsul_haque.webp" width="120">
+        <label>তারাবি সুরে সূরা আল কাহফ তেলাওয়াত। HEALING SURAH AL KAHF الكهف  By @shamsul_haque</label>
+    </a>
+    
+    <a href="downloads\(NEW) Best Recitation of Surah YASEEN يٰسٓ । সূরা ইয়াসীন । Shamsul Haque.mp4">
+        <img src="downloads\(NEW) Best Recitation of Surah YASEEN يٰسٓ । সূরা ইয়াসীন । Shamsul Haque.webp" width="120">
+        <label>(NEW) Best Recitation of Surah YASEEN يٰسٓ । সূরা ইয়াসীন । Shamsul Haque</label>
+    </a>
+    
+    <a href="downloads\Ar Rahman.mp4">
+        <img src="downloads\Ar Rahman.webp" width="120">
+        <label>সূরা আর রহমান (الرحمن)  - মন জুড়ানো তেলাওয়াত | Zain Abu Kautsar</label>
+    </a>
+    
+    <a href="downloads\রাসূল ﷺ এর সবচেয়ে পছন্দের সূরা - সূরা আল ফাতহ ┇ Surah Fath Recited by Zain Abu Kautsar.mp4">
+        <img src="downloads\রাসূল ﷺ এর সবচেয়ে পছন্দের সূরা - সূরা আল ফাতহ ┇ Surah Fath Recited by Zain Abu Kautsar.webp" width="120">
+        <label>রাসূল ﷺ এর সবচেয়ে পছন্দের সূরা - সূরা আল ফাতহ ┇ Surah Fath Recited by Zain Abu Kautsar</label>
+    </a>
+    
+    <a href="downloads\অন্তর শীতল করা কণ্ঠে সূরা ইউসুফ এর তিলাওয়াত ┇ Surah Yusuf Recited by Omar Hisham Al Arabi ┇An Nafee.mp4">
+        <img src="downloads\অন্তর শীতল করা কণ্ঠে সূরা ইউসুফ এর তিলাওয়াত ┇ Surah Yusuf Recited by Omar Hisham Al Arabi ┇An Nafee.webp" width="120">
+        <label>অন্তর শীতল করা কণ্ঠে সূরা ইউসুফ এর তিলাওয়াত ┇ Surah Yusuf Recited by Omar Hisham Al Arabi ┇An Nafee</label>
+    </a>
+    
+    <a href="downloads\সূরা জিন এর অন্তর তৃপ্তকারী তিলাওয়াত ┇ Recited by Mahmud Huzaifa ┇ An Nafee ┇ আন নাফী.mp4">
+        <img src="downloads\সূরা জিন এর অন্তর তৃপ্তকারী তিলাওয়াত ┇ Recited by Mahmud Huzaifa ┇ An Nafee ┇ আন নাফী.webp" width="120">
+        <label>সূরা জিন এর অন্তর তৃপ্তকারী তিলাওয়াত ┇ Recited by Mahmud Huzaifa ┇ An Nafee ┇ আন নাফী</label>
+    </a>
+    
+    <a href="downloads\সুন্দর কণ্ঠে সূরা নাবা থেকে সূরা নাস তিলাওয়াত.mp4">
+        <img src="downloads\সুন্দর কণ্ঠে সূরা নাবা থেকে সূরা নাস তিলাওয়াত.webp" width="120">
+        <label>ুন্দর কণ্ঠে সূরা নাবা থেকে সূরা নাস তিলাওয়াত । Beautiful Quran Recitation</label>
+    </a>
+    </lines>
+		</div>
+		<div class="hide" id="Music">
+			<lines>
+			
+    <a href="downloads\Nabi Un Nabi By Ehsaan Tahmid ᴴᴰ.mp4">
+        <img src="downloads\Nabi Un Nabi By Ehsaan Tahmid ᴴᴰ.webp" width="120">
+        <label>Nabi Un Nabi By Ehsaan Tahmid ᴴᴰ</label>
+    </a>
+    
+    <a href="downloads\Wo Jiske Liye Mehfile. Mazharul Islam.mp4">
+        <img src="downloads\Wo Jiske Liye Mehfile. Mazharul Islam.webp" width="120">
+        <label>Wo Jiske Liye Mehfile || Mazharul Islam</label>
+    </a>
+    
+    <a href="downloads\আসমাউল হুসনা - আল্লাহ্‌র ৯৯টি নাম নিয়ে হৃদয়স্পর্শী নাশীদ ┇ 99 Names of Allah by Ilyas Mao.mp4">
+        <img src="downloads\আসমাউল হুসনা - আল্লাহ্‌র ৯৯টি নাম নিয়ে হৃদয়স্পর্শী নাশীদ ┇ 99 Names of Allah by Ilyas Mao.webp" width="120">
+        <label>আসমাউল হুসনা - আল্লাহ্‌র ৯৯টি নাম নিয়ে হৃদয়স্পর্শী নাশীদ ┇ 99 Names of Allah by Ilyas Mao</label>
+    </a>
+    
+    <a href="downloads\Ya Hanana (Official Nasheed Video) by Labbayk.mp4">
+        <img src="downloads\Ya Hanana (Official Nasheed Video) by Labbayk.webp" width="120">
+        <label>Ya Hanana (Official Nasheed Video) by Labbayk</label>
+    </a>
+    
+    <a href="downloads\salat salam.mp4">
+        <img src="downloads\salat salam.webp" width="120">
+        <label>‎ صلاة سلام | Salat salam | Mohamed Tarek & Mohamed Youssef Ft.Nashidul Islam l محمد طارق ومحمد يوسف</label>
+    </a>
+    
+    <a href="downloads\anta.mp4">
+        <img src="downloads\anta.webp" width="120">
+        <label>Mo Vocals - Antassalam (2022) | Official Nasheed Video | (NO MUSIC) | Arabic Nasheed | 4K</label>
+    </a>
+    
+    <a href="downloads\Message of Change.mp4">
+        <img src="downloads\Message of Change.webp" width="120">
+        <label>Message of Change | এক পরিবর্তনের বার্তা | Bangla & English Subtitle @TheMercifulServant</label>
+    </a>
+    
+    <a href="downloads\MuhammadNabina.mp4">
+        <img src="downloads\MuhammadNabina.webp" width="120">
+        <label>Mo Vocals - Muhammad Nabina (Official Video Clip) | NO MUSIC | Arabic Nasheed |</label>
+    </a>
+    </lines>
+		</div>
+		<div class="hide" id="Unique"></div>
+		<div class="hide" id="Recordings"></div>
+		<div class="hide" id="Music2"></div>
+		<div class="hide" id="Unique2"></div>
+		<div class="hide" id="Recordings2"></div>
+	</folder>
+	<script>
+		const gb = document.querySelector('#gb');
+		let j = 'Watch Later';
+		function SwitchFolder(i) {
+			document.querySelector(`[tr="${j}"]`).classList.remove("selected");
+			document.getElementById(j).className = "hide";
+			document.querySelector(`[tr="${i}"]`).className = "selected";
+			document.getElementById(i).className = "show";
+			j = i;
+		}
+		const g = document.querySelectorAll('g'), m = document.querySelector('#main');
+		function SwitchGroup(k) {
+			console.log(g[k]);
+			while (m.firstChild) {
+				m.removeChild(m.firstChild);
+			}
+			m.appendChild(g[k].cloneNode(true));
+		}
+	</script>
+	<footer>
+			© 2025 Content Page of ADOR RAHMAN made in <u>HTML Home</u>
+	</footer>
+</body>
+</html>

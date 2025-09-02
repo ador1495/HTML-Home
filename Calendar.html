@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML Home</title>
+    <link rel="icon" type="image/png" href="HomeIcon.png" />
+    <style>
+	body {
+		margin: 0;
+		font-family: Arial, Helvetica, sans-serif;
+		background: #121212;
+		color: #e0e0e0;
+	}
+	nav {
+		background: #181818;
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+		padding: 12px;
+		border-bottom: 1px solid #333;
+	}
+	nav a {
+		color: #bbbbbb;
+		text-decoration: none;
+		font-weight: bold;
+		transition: color 0.3s;
+	}
+	nav a:hover {
+		color: #00bcd4;
+	}
+	footer {
+		background: #1f1f1f;
+		color: #aaaaaa;
+		text-align: center;
+		padding: 12px;
+		position: relative;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border-top: 1px solid #333;
+	}
+	button, input, select, textarea {
+		background-color: #222;
+		color: #eee;
+		border: 1px solid #444;
+		border-radius: 6px;
+		padding: 4px 6px;
+		font-size: 14px;
+	}
+	task {
+		white-space: nowrap;
+	}
+	year {
+		display: flex;
+		flex-direction: column;
+		margin: 24px;
+		height: 725px;
+		width: 1300px;
+		border: 4px solid white;
+		text-align: center;
+	}
+	year div {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	year label {
+		margin: 8px;
+		font-size: 24px;
+	}
+	month {
+		display: flex;
+		flex-direction: column;
+		margin: 4px;
+		height: 215px;
+		min-width: 312px;
+		border: 2px solid white;
+		text-align: center;
+	}
+	month div {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	month label {
+		margin: 2px;
+		font-size: 16px;
+	}
+	week {
+		display: flex;
+		flex-direction: column;
+		margin: 4px;
+		height: 20px;
+		min-width: 34px;
+		border: 1px solid white;
+		text-align: center;
+	}
+	week div {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+	}
+	week label {
+		margin: 1px;
+		margin-bottom: 12px;
+		font-size: 14px;
+	}
+	day {
+		display: flex;
+		justify-content: center;
+		margin: 5px;
+		height: 20px;
+		min-width: 20px;
+		background-color: #222222;
+		font-size: 16px;
+	}
+	event {
+		display: flex;
+		flex-direction: row;
+		flew-wrap: wrap;
+		margin: 24px;
+		height: 300px;
+		width: 1268px;
+		max-width: 1300px;
+		border: 4px solid white;
+		overflow: auto;
+		scrollbar-width: none;
+		padding: 16px;
+	}
+	box {
+		display: flex;
+		flex-direction: column;
+		margin-right: 16px;
+		border: 1px solid gray;
+	}
+	box input {
+		margin-top: 8px;
+	}
+	box top {
+		display: flex;
+		justify-Content: center;
+	}
+	box top input {
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		height: 18px;
+		width: 18px;
+		margin-left: 8px;
+	}
+	box div {
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
+		margin-top: 12px;
+		max-height: default;
+		scrollbar-width: none;
+	}
+	box div label {
+		margin: 4px;
+	}
+	box div label button {
+		float: right;
+		color: orange;
+		text-weight: bold;
+		border: none;
+		padding: 0px;
+	}
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="Home.html">Home</a>
+      <a href="Games.html">Games</a>
+      <a href="Content.html">Content</a>
+      <a href="Calendar.html">Calendar</a>
+    </nav>
+	
+	<task>
+		<input type="date" id="event1">
+		<input type="text" id="eventname1" style="width: 180px;">
+		<input type="date" id="event2">
+		<input type="text" id="eventname2" style="width: 180px;">
+		<input type="date" id="event3">
+		<input type="text" id="eventname3" style="width: 180px;">
+		<input type="date" id="event4">
+		<input type="text" id="eventname4" style="width: 180px;">
+	</task>
+	
+	
+	<year>
+		<label>2025</label>
+		<div>
+			<month>
+				<label>January</label>
+				<div>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Thus</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+				<label>Fabruary</label>
+				<div>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day></day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day></day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day></day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+				<label>March</label>
+				<div>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+			  <label>April</label>
+			  <div>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day></day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+				<label>May</label>
+				<div>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+				<label>June</label>
+				<div>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day></day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+			  <label>July</label>
+			  <div>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+				<label>August</label>
+				<div>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+			  <label>September</label>
+			  <div>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day></day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+			  <label>October</label>
+			  <div>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Thus</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+			<month>
+			  <label>November</label>
+			  <div>
+				<week>
+				  <label>Sat</label>
+				  <div>
+					<day>1</day>
+					<day>8</day>
+					<day>15</day>
+					<day>22</day>
+					<day>29</day>
+				  </div>
+				</week>
+				<week>
+				  <label>Sun</label>
+				  <div>
+					<day>2</day>
+					<day>9</day>
+					<day>16</day>
+					<day>23</day>
+					<day>30</day>
+				  </div>
+				</week>
+				<week>
+				  <label>Mon</label>
+				  <div>
+					<day>3</day>
+					<day>10</day>
+					<day>17</day>
+					<day>24</day>
+					<day></day>
+				  </div>
+				</week>
+				<week>
+				  <label>Tue</label>
+				  <div>
+					<day>4</day>
+					<day>11</day>
+					<day>18</day>
+					<day>25</day>
+				  </div>
+				</week>
+				<week>
+				  <label>Wed</label>
+				  <div>
+					<day>5</day>
+					<day>12</day>
+					<day>19</day>
+					<day>26</day>
+				  </div>
+				</week>
+				<week>
+				  <label>Thu</label>
+				  <div>
+					<day>6</day>
+					<day>13</day>
+					<day>20</day>
+					<day>27</day>
+				  </div>
+				</week>
+				<week>
+				  <label>Fri</label>
+				  <div>
+					<day>7</day>
+					<day>14</day>
+					<day>21</day>
+					<day>28</day>
+				  </div>
+				</week>
+			  </div>
+			</month>
+			<month>
+			  <label>December</label>
+			  <div>
+					<week>
+						<label>Mon</label>
+						<div>
+							<day>1</day>
+							<day>8</day>
+							<day>15</day>
+							<day>22</day>
+							<day>29</day>
+						</div>
+					</week>
+					<week>
+						<label>Tue</label>
+						<div>
+							<day>2</day>
+							<day>9</day>
+							<day>16</day>
+							<day>23</day>
+							<day>30</day>
+						</div>
+					</week>
+					<week>
+						<label>Wed</label>
+						<div>
+							<day>3</day>
+							<day>10</day>
+							<day>17</day>
+							<day>24</day>
+							<day>31</day>
+						</div>
+					</week>
+					<week>
+						<label>Thu</label>
+						<div>
+							<day>4</day>
+							<day>11</day>
+							<day>18</day>
+							<day>25</day>
+						</div>
+					</week>
+					<week>
+						<label>Fri</label>
+						<div>
+							<day>5</day>
+							<day>12</day>
+							<day>19</day>
+							<day>26</day>
+						</div>
+					</week>
+					<week>
+						<label>Sat</label>
+						<div>
+							<day>6</day>
+							<day>13</day>
+							<day>20</day>
+							<day>27</day>
+						</div>
+					</week>
+					<week>
+						<label>Sun</label>
+						<div>
+							<day>7</day>
+							<day>14</day>
+							<day>21</day>
+							<day>28</day>
+						</div>
+					</week>
+				</div>
+			</month>
+		</div>
+	</year>
+	
+	<event>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+	</event>
+	
+    <footer>
+      &copy; 2025 Calendar Page of ADOR RAHMAN made in <u>HTML Home</u>
+    </footer>
+  </body>
+</html>
