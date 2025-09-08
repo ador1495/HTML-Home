@@ -167,6 +167,161 @@
 		border: none;
 		padding: 0px;
 	}
+	.con {
+		margin: 24px;
+		display: flex;
+		width: 1300px;
+		height: 240px;
+	}
+	left {
+		display: flex;
+		flex-direction: column;
+		width: 1000px;
+		height: 240px;
+		background-color: #141414;
+		padding: 16px;
+	}
+	right {
+		display: flex;
+		flex-direction: column;
+		width: 300px;
+		height: 240px;
+		background-color: #151515;
+		padding: 16px;
+	}
+	.progress-container {
+		margin: 8px;
+		min-width: 250px;
+		height: 12px;
+		background: #222222;
+		border-radius: 5px;
+	}
+	.progress {
+		position: relative;
+		width: 0%;
+		height: 100%;
+		background-color: #555;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	dot {
+		position: absolute;
+		left: calc(100% - 6px);
+		top: -25%;
+		min-width: 14px;
+		min-height: 14px;
+		background-color: #aaa;
+		border-radius: 50%;
+		border: 2px solid gray;
+	}
+	e1 {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		margin: 8px;
+		padding: 8px;
+		height: 64px;
+		width: (100% - 32px);
+		background-color: #111
+	}
+	#play {
+		letter-spacing: 0px;
+		cursor: pointer;
+	}
+	e1 label {
+		margin: 6px;
+		font-size: 20px;
+		color: #aaa;
+	}
+	e2 {
+		display: flex;
+		justify-content: center;
+	}
+	e2 label {
+		font-size: 64px;
+		font-weight: bold;
+		color: #aaa;
+		background-color: #111;
+		margin: 16px;
+		padding: 16px;
+	}
+	e3 {
+		max-height: 240px;
+		overflow: auto;
+		scrollbar-width: none;
+	}
+	step .input {
+		float: right;
+		padding: 0px;
+		width: 40px;
+		border: none;
+		background-color: #141414;
+	}
+	display {
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+	}
+	rowhead, row {
+		height: 30px;
+		display: flex;
+		text-align: center;
+	}
+	weeek, maincell {
+		width: 30px;
+		border: 1px solid gray;
+	}
+	timecell {
+		width: 62px;
+		border: 1px solid gray;
+	}
+	cell {
+		width: 30px;
+		border: 1px solid gray;
+	}
+	maincell button {
+		padding: 0;
+		border: none;
+		width: 30px;
+		height: 30px;
+	}
+	menu {
+		position: absolute;
+		max-height: 210px;
+		left: 50px;
+		padding: 16px;
+		margin: 0px;
+		background-color: black;
+		overflow: auto;
+		scrollbar-width: none;
+	}
+	.hide {
+		display: none;
+	}
+	.show {
+		display: block;
+	}
+	.pause {
+		text-decoration: underline;
+	}
+	cmenu1 {
+		position: absolute;
+		background: #100111;
+		border: 1px solid black;
+		display: none;
+		flex-direction: column;
+		z-index: 1000;
+		min-width: 150px;
+	}
+	cmenu1 button {
+		border: none;
+		background-color: #141414;
+		padding: 12px;
+	}
+	cmenu1 button:hover {
+		border: 1px solid white;
+	}
     </style>
   </head>
   <body>
@@ -178,7 +333,7 @@
     </nav>
 	
 	<task>
-		<input type="date" id="event1">
+		<input type="date" id="event">
 		<input type="text" id="eventname1" style="width: 180px;">
 		<input type="date" id="event2">
 		<input type="text" id="eventname2" style="width: 180px;">
@@ -188,6 +343,661 @@
 		<input type="text" id="eventname4" style="width: 180px;">
 	</task>
 	
+	<div class="con">
+		<left>
+			<e3>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress1" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress2" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress3" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress4" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress5" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress6" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress7" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress8" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress9" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress10" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress11" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress12" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress13" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress14" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress15" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+				<step>
+					<input type="checkbox">
+					<label contenteditable="true">Step: </label>
+					<input type="Number" max="100" value="25" class="input">
+					<div class="progress-container">
+						<div id="progress16" class="progress">
+							<dot></dot>
+						</div>
+					</div>
+				</step>
+			</e3>
+		</left>
+		<right>
+			<e1>
+				<div>
+					<audio id="music" src="music.mp3"></audio>
+					<input type="time" id="worktime">
+					<button id="play" onclick="if (music.paused) music.play(); else music.pause(); clockalarm.value = null">|></button>
+					<label id="timeline">0:00 / 5:00</label>
+				</div>
+				<div class="progress-container">
+					<div id="progress" class="progress">
+						<dot></dot>
+					</div>
+				</div>
+			</e1>
+			<e2>
+				<label id="sw">00:00:00</label>
+				<cmenu1>
+					<button onclick='sw.mode(0)'>stop watch</button>
+					<button onclick="sw.mode(1)">digital clock</button>
+					<button onclick="sw.mode(2)">count down</button>
+				</cmenu1>
+			</e2>
+		</right>
+	</div>
+	<display>
+		<rowhead>
+			<maincell><button onclick="menu.className = (menu.className == 'hide') ? 'show' : 'hide';">|_|</button></maincell>
+			<menu class="hide">
+				<div class="type">
+					<label>1</label>
+					<input type="color">
+					<input type="text">
+				</div>
+				<div class="type">
+					<label>2</label>
+					<input type="color">
+					<input type="text">
+				</div><div class="type">
+					<label>3</label>
+					<input type="color">
+					<input type="text">
+				</div><div class="type">
+					<label>4</label>
+					<input type="color">
+					<input type="text">
+				</div><div class="type">
+					<label>5</label>
+					<input type="color">
+					<input type="text">
+				</div><div class="type">
+					<label>6</label>
+					<input type="color">
+					<input type="text">
+				</div><div class="type">
+					<label>7</label>
+					<input type="color">
+					<input type="text">
+				</div>
+				<div class="type">
+					<label>8</label>
+					<input type="color">
+					<input type="text">
+				</div>
+				<div class="type">
+					<label>9</label>
+					<input type="color">
+					<input type="text">
+				</div>
+				<div class="type">
+					<label>10</label>
+					<input type="color">
+					<input type="text">
+				</div>
+			</menu>
+			<timecell>4</timecell>
+			<timecell>5</timecell>
+			<timecell>6</timecell>
+			<timecell>7</timecell>
+			<timecell>8</timecell>
+			<timecell>9</timecell>
+			<timecell>10</timecell>
+			<timecell>11</timecell>
+			<timecell>12</timecell>
+			<timecell>1</timecell>
+			<timecell>2</timecell>
+			<timecell>3</timecell>
+			<timecell>4</timecell>
+			<timecell>5</timecell>
+			<timecell>6</timecell>
+			<timecell>7</timecell>
+			<timecell>8</timecell>
+			<timecell>9</timecell>
+			<timecell>10</timecell>
+			<timecell>11</timecell>
+		</rowhead>
+		<row>
+			<weeek>Sat</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+		<row>
+			<weeek>Sun</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+		<row>
+			<weeek>Mon</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+		<row>
+			<weeek>Tue</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+		<row>
+			<weeek>Wed</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+		<row>
+			<weeek>Thu</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+		<row>
+			<weeek>Fri</weeek>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+			<cell></cell>
+		</row>
+	</display>
+	
+	<event>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+		<box>
+			<top>
+				<label>Holiday</label>
+				<input type="color">
+			</top>
+			<input type="date" id="event1">
+			<div>
+				<label>1/1/2025 <button>| X |</button></label>
+			</div>
+		</box>
+	</event>
 	
 	<year>
 		<label>2025</label>
@@ -1047,101 +1857,228 @@
 		</div>
 	</year>
 	
-	<event>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-		<box>
-			<top>
-				<label>Holiday</label>
-				<input type="color">
-			</top>
-			<input type="date" id="event1">
-			<div>
-				<label>1/1/2025 <button>| X |</button></label>
-			</div>
-		</box>
-	</event>
-	
     <footer>
       &copy; 2025 Calendar Page of ADOR RAHMAN made in <u>HTML Home</u>
     </footer>
+	<script>
+		const menu = document.querySelector('menu');
+		const cmenu1 = document.querySelector('cmenu1');
+		const music = document.getElementById('music'), musicplay = document.getElementById('play'), timeline = document.getElementById("timeline"), musicprogress = document.getElementById("progress");
+		let progressMouseStart = 0, progressChange = 0, musicrun = false, clockalarm = document.getElementById("worktime"), act = '', aci;
+		function formatTime(seconds) {
+			const minutes = Math.floor(seconds / 60);
+			const secs = Math.floor(seconds % 60);
+			return `${minutes}:${secs.toString().padStart(2, "0")}`;
+		}
+		music.addEventListener("loadedmetadata", () => {
+			timeline.textContent = `0:00 / ${formatTime(music.duration)}`;
+		});
+		music.addEventListener("timeupdate", () => {
+			timeline.textContent = `${formatTime(music.currentTime)} / ${formatTime(music.duration)}`;
+			musicprogress.style.width = `${(music.currentTime*100) / music.duration}%`;
+		});
+		musicprogress.addEventListener("mousedown", (e) => {
+			progressMouseStart = e.clientX;
+			musicrun = true;
+		})
+		document.addEventListener("mouseup", (e) => {
+			musicrun = false;
+		})
+		document.addEventListener("mousemove", (e) => {
+			if (musicrun) {
+				progressChange = e.clientX - progressMouseStart;
+				music.currentTime += progressChange * 1.25;
+				progressMouseStart = e.clientX;
+			}
+		})
+		musicprogress.addEventListener("dblclick", (e) => {
+			music.currentTime = 0;
+		})
+		music.addEventListener("play", () => {musicplay.innerText = '| |'})
+		music.addEventListener("pause", () => {musicplay.innerText = '|>'})
+		let ac = () => {
+			const now = new Date();
+			const hh = String(now.getHours()).padStart(2, "0");
+			const mm = String(now.getMinutes()).padStart(2, "0");
+			const current = `${hh}:${mm}`;
+			
+			if (current === act) {
+				music.play();
+				s4 = null; // play once
+			}
+		};
+		clockalarm.addEventListener("change", () => { act = clockalarm.value; clearInterval(aci); if (act) {aci = setInterval(ac, 60000)}})
+		document.addEventListener("click", (e) => { if (e.target) cmenu1.style.display = "none"; })
+		class Watch {
+			constructor(element) {
+				this.el = element;
+				this.r = false, this.z = true;
+				this.p = this.p1 = this.p2 = 0;
+				this.u = 0;
+				this.f = [
+					[
+						() => {if (this.z) this.SWstart(); else this.SWstop()},
+						() => {this.SWreset()},
+						() => {document.visibilityState === "hidden" ? this.SWhide() : this.SWshow()},
+						() => {this.SWreset()},
+						() => {this.SWreset()}
+					],
+					[
+						() => {},
+						() => {},
+						() => {document.visibilityState === "hidden" ? this.Chide() : this.Cshow()},
+						() => {this.Cshow(); this.Ctick()},
+						() => {this.Chide()}
+					],
+					[
+						() => {if (this.z) {this.CDstart()} else {this.CDstop()}},
+						() => {this.CDreset()},
+						() => {},
+						() => {this.CDset()},
+						() => {}
+					]
+				];
+				
+				this.el.addEventListener("click", this.f[this.u][0]);
+				this.el.addEventListener("dblclick", this.f[this.u][1]);
+				document.addEventListener("visibilitychange", this.f[this.u][2]);
+				
+				this.el.addEventListener("contextmenu", (e) => {
+					e.preventDefault();
+					cmenu1.style.top = e.pageY + "px";
+					cmenu1.style.left = e.pageX - 150 + "px";
+					cmenu1.style.display = "flex";
+				});
+			}
+			mode(i) {
+				this.el.removeEventListener("click", this.f[this.u][0]);
+				this.el.removeEventListener("dblclick", this.f[this.u][1]);
+				document.removeEventListener("visibilitychange", this.f[this.u][2]);
+				this.f[this.u][4]();
+				this.u = i;
+				this.el.addEventListener("click", this.f[this.u][0]);
+				this.el.addEventListener("dblclick", this.f[this.u][1]);
+				document.addEventListener("visibilitychange", this.f[this.u][2]);
+				this.f[this.u][3]();
+			}
+			CDset() {
+				this.sp = prompt("Timer Duration").split(":").map(Number);
+				if (this.sp.length == 3) this.s3 = this.sp[0] * 3600 + this.sp[1] * 60 + this.sp[2];
+				if (this.sp.length == 2) this.s3 = this.sp[0] * 60 + this.sp[1];
+				if (this.sp.length == 1) this.s3 = this.sp[0];
+				this.s = this.s3 % 60;
+				this.m = Math.floor(this.s3 / 60) % 60;
+				this.h = Math.floor(this.s3 / 3600);
+				this.render();
+			}
+			CDstart() {
+				this.n = new Date();
+				if (!this.r) {
+					this.s1 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds() + this.s3; this.r = true;
+				} else {
+					this.p2 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds();
+					this.p += this.p2 - this.p1;
+				}
+				this.z = false;
+				this.i = setInterval(() => this.CDtick(), 1000);
+				this.el.classList.remove("pause");
+			}
+			CDstop() {
+				this.n = new Date();
+				this.p1 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds();
+				clearInterval(this.i);
+				this.el.className = "pause";
+				this.z = true;
+			}
+			CDreset() {
+				this.CDstop();
+				this.el.classList.remove("pause");
+				this.s = this.s3 % 60;
+				this.m = Math.floor(this.s3 / 60) % 60;
+				this.h = Math.floor(this.s3 / 3600);
+				this.p = this.p1 = this.p2 = 0;
+				this.render();
+				this.r = false;
+			}
+			CDtick() {
+				this.n = new Date();
+				this.s2 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds() - this.p;
+				this.t = this.s1 - this.s2;
+				if (this.t == 0) {music.play(); this.CDreset(); return;}
+				this.s = this.t % 60;
+				this.m = Math.floor(this.s3 / 60) % 60;
+				this.h = Math.floor(this.t / 3600);
+				this.render();
+			}
+			Ctick() {
+				this.n = new Date();
+				this.s = this.n.getSeconds();
+				this.m = this.n.getMinutes();
+				this.h = this.n.getHours();
+				this.render();
+			}
+			Cshow() {
+				this.i = setInterval(() => this.Ctick(), 1000);
+				this.el.classList.remove("pause");
+			}
+			Chide() {
+				clearInterval(this.i);
+				this.el.className = "pause";
+			}
+			SWstart() {
+				this.n = new Date();
+				if (!this.r) {
+					this.s1 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds(); this.r = true;
+				} else {
+					this.p2 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds();
+					this.p += this.p2 - this.p1;
+				}
+				this.z = false;
+				this.i = setInterval(() => this.SWtick(), 1000);
+				this.el.classList.remove("pause");
+			}
+			SWshow() {
+				if (!this.z) {
+					this.i = setInterval(() => this.SWtick(), 1000);
+					this.el.classList.remove("pause");
+				}
+			}
+			SWstop() {
+				this.n = new Date();
+				this.p1 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds();
+				clearInterval(this.i);
+				this.el.className = "pause";
+				this.z = true;
+			}
+			SWhide() {
+				if (!this.z) {
+					clearInterval(this.i);
+					this.el.className = "pause";
+				}
+			}
+			SWreset() {
+				this.SWstop();
+				this.el.classList.remove("pause");
+				this.h = this.m = this.s = 0;
+				this.p = this.p1 = this.p2 = 0;
+				this.render();
+				this.r = false;
+			}
+			SWtick() {
+				this.n = new Date();
+				this.s2 = this.n.getHours() * 3600 + this.n.getMinutes() * 60 + this.n.getSeconds() - this.p;
+				this.t = this.s2 - this.s1;
+				this.s = this.t % 60;
+				this.m = Math.floor(this.t / 60) % 60;
+				this.h = Math.floor(this.t / 3600);
+				this.render();
+			}
+			render() {
+				const pad = n => String(n).padStart(2, "0");
+				this.el.innerText = `${pad(this.h)}:${pad(this.m)}:${pad(this.s)}`;
+			}
+		}
+		const sw = new Watch(document.getElementById("sw"));
+	</script>
   </body>
 </html>
