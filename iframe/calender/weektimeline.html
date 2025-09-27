@@ -1,0 +1,380 @@
+<style>
+	body {
+		margin: 0;
+		font-family: Arial, Helvetica, sans-serif;
+		background: #121212;
+		color: #e0e0e0;
+	}
+	button, input, select, textarea {
+		background-color: #222;
+		color: #eee;
+		border: 1px solid #444;
+		border-radius: 6px;
+		padding: 4px 6px;
+		font-size: 14px;
+	}
+	display {
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+	}
+	rowhead, row {
+		height: 30px;
+		display: flex;
+		text-align: center;
+	}
+	weeek, maincell {
+		width: 30px;
+		border: 1px solid gray;
+	}
+	timecell {
+		width: 62px;
+		border: 1px solid gray;
+	}
+	cell {
+		width: 30px;
+		border: 1px solid gray;
+	}
+	maincell button {
+		padding: 0;
+		border: none;
+		width: 30px;
+		height: 30px;
+	}
+	menu {
+		position: absolute;
+		max-height: 210px;
+		left: 50px;
+		padding: 16px;
+		margin: 0px;
+		background-color: black;
+		overflow: auto;
+		scrollbar-width: none;
+	}
+</style>
+<display>
+	<rowhead>
+		<maincell><button>|_|</button></maincell>
+		<timecell>4</timecell>
+		<timecell>5</timecell>
+		<timecell>6</timecell>
+		<timecell>7</timecell>
+		<timecell>8</timecell>
+		<timecell>9</timecell>
+		<timecell>10</timecell>
+		<timecell>11</timecell>
+		<timecell>12</timecell>
+		<timecell>1</timecell>
+		<timecell>2</timecell>
+		<timecell>3</timecell>
+		<timecell>4</timecell>
+		<timecell>5</timecell>
+		<timecell>6</timecell>
+		<timecell>7</timecell>
+		<timecell>8</timecell>
+		<timecell>9</timecell>
+		<timecell>10</timecell>
+		<timecell>11</timecell>
+	</rowhead>
+	<row>
+		<weeek>Sat</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+	<row>
+		<weeek>Sun</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+	<row>
+		<weeek>Mon</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+	<row>
+		<weeek>Tue</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+	<row>
+		<weeek>Wed</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+	<row>
+		<weeek>Thu</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+	<row>
+		<weeek>Fri</weeek>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+		<cell></cell>
+	</row>
+</display>

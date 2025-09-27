@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="/eel.js"></script>
+<title>HTML Home</title>
+<link rel="icon" type="image/png" href="HomeIcon.png" />
+<style>
+  body { font-family: Arial; text-align: center;
+		background: #121212;
+		color: #e0e0e0;
+  }
+  #dropBox { border: 2px dashed #aaa; padding: 40px; width: 400px; margin: auto; cursor: pointer; }
+  #progressBox { margin-top: 20px; display: none; }
+  #progressBar { width: 80%; height: 25px; border: 1px solid #000; margin: 10px auto; position: relative; }
+  #progressFill { height: 100%; width: 0%; background-color: #4caf50; }
+	footer {
+		background: #1f1f1f;
+		color: #aaaaaa;
+		text-align: center;
+		padding: 12px;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border-top: 1px solid #333;
+	}
+	nav {
+		background: #181818;
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+		padding: 12px;
+		border-bottom: 1px solid #333;
+	}
+	nav a {
+		color: #bbbbbb;
+		text-decoration: none;
+		font-weight: bold;
+		transition: color 0.3s;
+	}
+	nav a:hover {
+		color: #00bcd4;
+	}
+button, input, select, textarea {
+  background-color: #222;   /* dark background */
+  color: #eee;              /* light text */
+  border: 1px solid #444;   /* subtle border */
+  border-radius: 6px;       /* rounded corners */
+  padding: 8px 12px;
+  font-size: 14px;
+}
+button:hover, input:hover, select:hover, textarea:hover {
+  background-color: #333;
+  border-color: #666;
+}
+button:focus, input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 4px #888;
+}
+</style>
+</head>
+<body>
+
+<h2>YouTube Video Downloader</h2>
+
+<div id="dropBox">Drag & Drop or Paste YouTube URL Here</div>
+<input type="text" id="urlInput" placeholder="Paste URL here" style="width: 400px; margin-top:10px;"><br>
+
+<label for="resolution">Select resolution:</label>
+<select id="resolution">
+  <option value="720">720p</option>
+  <option value="480">480p</option>
+  <option value="360">360p</option>
+</select><br><br>
+
+<div id="progressBox">
+  <div id="progressBar">
+    <div id="progressFill"></div>
+  </div>
+  <div id="progressText">0% - 0 KB/s</div>
+</div>
+
+ <footer>
+	&copy; 2025 Content Page of ADOR RAHMAN made in <u>HTML Home</u>
+ </footer>
+
+<script type="text/javascript" src="/eel.js"></script>
+<script>
+const dropBox = document.getElementById('dropBox');
+const urlInput = document.getElementById('urlInput');
+const progressBox = document.getElementById('progressBox');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+
+// Handle drag drop
+dropBox.addEventListener('dragover', e => e.preventDefault());
+dropBox.addEventListener('drop', e => {
+    e.preventDefault();
+    const url = e.dataTransfer.getData('text');
+    urlInput.value = url;
+    startDownload(url);
+});
+
+// Handle paste (Ctrl+V)
+urlInput.addEventListener("paste", e => {
+    setTimeout(() => {
+        if (urlInput.value) {
+            startDownload(urlInput.value);
+        }
+    }, 50);
+});
+
+// Start download automatically
+function startDownload(url) {
+    const resolution = document.getElementById('resolution').value;
+    if (!url) return alert('Please enter URL');
+
+    progressBox.style.display = 'block';
+    progressFill.style.width = '0%';
+    progressText.innerText = '0% - 0 KB/s';
+
+    eel.start_download(url, resolution);
+    updateProgress();
+}
+
+function updateProgress() {
+    eel.get_progress()(data => {
+        progressFill.style.width = data.percent + '%';
+        progressText.innerText = `${data.percent}% - ${Math.round(data.speed/1024)} KB/s`;
+
+        if (data.status !== "Completed") {
+            setTimeout(updateProgress, 500);
+        } else {
+            alert('Download Complete!');
+
+            // Get last download info from Python
+            eel.get_last_download()(info => {
+                // Call Python function via Eel
+                eel.add_to_home(info.title, info.filepath, info.thumbnail);
+            });
+
+            progressBox.style.display = 'none';
+            urlInput.value = '';
+        }
+    });
+}
+
+
+</script>
+</body>
+</html>
