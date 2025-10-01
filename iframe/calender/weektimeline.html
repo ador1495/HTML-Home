@@ -18,7 +18,7 @@
 		flex-direction: column;
 		padding: 16px;
 	}
-	rowhead, row {
+	rowhead, row, rowhead div {
 		height: 30px;
 		display: flex;
 		text-align: center;
@@ -28,7 +28,7 @@
 		border: 1px solid gray;
 	}
 	timecell {
-		width: 62px;
+		width: 61.8px;
 		border: 1px solid gray;
 	}
 	cell {
@@ -51,30 +51,80 @@
 		overflow: auto;
 		scrollbar-width: none;
 	}
+	#hue-bar {
+		width: 300px;
+		margin: 8px;
+		height: 16px;
+		background: linear-gradient(
+			to right,
+			red, yellow, lime, cyan, blue, magenta, red
+		);
+		border-radius: 6px;
+		margin-bottom: 10px;
+		position: relative;
+	}
+	#point {
+		position: absolute;
+		top: -10px;
+		left: 50%;
+		width: 1px;
+		height: 24px;
+		background: #fff;
+		border: 1px solid black;
+	}
+	.hide {
+		display: none;
+	}
+	.show {
+		display: flex;
+	}
+	set {
+		display: flex;
+		width: 1500px;
+		border: 1px solid gray;
+	}
+	.selectedbut {
+		background: #111;
+	}
+	#buttons {
+		width: 955px;
+		overflow-x: auto;
+		scrollbar-width: none;
+		white-space: nowrap;
+	}
 </style>
 <display>
 	<rowhead>
-		<maincell><button>|_|</button></maincell>
-		<timecell>4</timecell>
-		<timecell>5</timecell>
-		<timecell>6</timecell>
-		<timecell>7</timecell>
-		<timecell>8</timecell>
-		<timecell>9</timecell>
-		<timecell>10</timecell>
-		<timecell>11</timecell>
-		<timecell>12</timecell>
-		<timecell>1</timecell>
-		<timecell>2</timecell>
-		<timecell>3</timecell>
-		<timecell>4</timecell>
-		<timecell>5</timecell>
-		<timecell>6</timecell>
-		<timecell>7</timecell>
-		<timecell>8</timecell>
-		<timecell>9</timecell>
-		<timecell>10</timecell>
-		<timecell>11</timecell>
+		<maincell><button onclick="if (setmode){set.className = 'hide'; sethead.className = 'show'} else {set.className = 'show'; sethead.className = 'hide'}; setmode=!setmode">|>>|</button></maincell>
+		<set class="hide">
+			<div id="hue-bar"><div id="point"></div></div>
+			<div id="buttons">
+				<button contenteditable="true">Coding</button>
+				<button contenteditable="true">Chess</button>
+			</div>
+		</set>
+		<div id="sethead">
+			<timecell>4</timecell>
+			<timecell>5</timecell>
+			<timecell>6</timecell>
+			<timecell>7</timecell>
+			<timecell>8</timecell>
+			<timecell>9</timecell>
+			<timecell>10</timecell>
+			<timecell>11</timecell>
+			<timecell>12</timecell>
+			<timecell>1</timecell>
+			<timecell>2</timecell>
+			<timecell>3</timecell>
+			<timecell>4</timecell>
+			<timecell>5</timecell>
+			<timecell>6</timecell>
+			<timecell>7</timecell>
+			<timecell>8</timecell>
+			<timecell>9</timecell>
+			<timecell>10</timecell>
+			<timecell>11</timecell>
+		</div>
 	</rowhead>
 	<row>
 		<weeek>Sat</weeek>
@@ -378,3 +428,58 @@
 		<cell></cell>
 	</row>
 </display>
+<script>
+	const bar = document.getElementById("hue-bar"), point = document.getElementById("point");
+	const cells = document.querySelectorAll('cell');
+	const set = document.querySelector("set"), sethead = document.querySelector("#sethead");
+	let but = document.querySelectorAll("set div button"), setmode = false;
+
+	let dragging = false, Color = ["", "", ""], index = null, map = [
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	];
+	
+	const data = JSON.parse(localStorage.getItem("W"));
+	if (data != null){Color = data.Color, map = data.map} else {save()}; loadColor();
+	function save(){localStorage.setItem("W", JSON.stringify({ Color , map }))};
+
+	function loadColor(){for (let i = 0; i < 280; i++){cells[i].style.background = cells[i].style.borderColor = Color[map[i]]}; for (let i = 0; i < but.length; i++){but[i].style.color = Color[i+1]}console.log(Color)}
+	cells.forEach((cell, i) => {cell.addEventListener("mousedown", () => {if (index!=null) cell.style.background = Color[index]; cell.style.borderColor = Color[index]; map[i] = index; save()})})
+	bar.addEventListener("mousedown", () => dragging = true);
+	but.forEach((b, i) => {b.addEventListener("mousedown", e => {index = i+1; let cbut = document.querySelector(".selectedbut"); if(cbut!=null) cbut.className = ""; e.target.className = "selectedbut"})});
+	but.forEach(b => {b.addEventListener("blur", e => {if (b.innerText.trim() == "") b.remove()})});
+	document.addEventListener("mouseup", () => {if (dragging) {dragging = false; loadColor(); save()}});
+	document.addEventListener("mousemove", (e) => {
+		if (!dragging) return;
+
+		const rect = bar.getBoundingClientRect();
+		let x = e.clientX - rect.left; // position inside bar
+		x = Math.max(0, Math.min(x, rect.width)); // clamp inside bar
+
+		const percent = x / rect.width;
+		point.style.left = (percent * 100) + "%";
+
+		const hue = Math.round(percent * 360);
+		const color = `hsl(${hue}, 50%, 50%)`;
+		Color[index] = color;
+	});
+	
+	document.addEventListener("keydown", (e) => {
+		if (e.key == "+"){ Color.push("");
+			let button = document.createElement('button');
+			button.innerText = "New Task";
+			button.setAttribute("contenteditable", "true");
+			document.getElementById("buttons").appendChild(button);
+			but = document.querySelectorAll("set div button");
+			but.forEach((b, i) => {index = i; b.addEventListener("mousedown", e => {let cbut = document.querySelector(".selectedbut"); if(cbut!=null) cbut.className = ""; e.target.className = "selectedbut"})});
+			but.forEach(b => {b.addEventListener("blur", e => {if (b.innerText.trim() == "") b.remove()})});
+		}
+		if (e.key == "."){let cbut = document.querySelector(".selectedbut"); if(cbut!=null) cbut.className = ""}
+		if (e.key == "0"){let cbut = document.querySelector(".selectedbut"); if(cbut!=null) cbut.className = ""; index=0}
+	});
+</script>
