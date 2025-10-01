@@ -1,0 +1,76 @@
+<style>
+	#topic {
+		display: flex;
+		flex-direction: column;
+		width: 150px;
+	}
+	button {
+		background: #222;
+		border: none;
+		color: #bbb;
+		font-size: 12px;
+		margin: 2px;
+	}
+	.selected {
+		font-size: 16px;
+	}
+	body {
+		display: flex;
+		flex-direction: row;
+	}
+	svg {
+		margin: 4px;
+		margin-left: 10px;
+	}
+</style>
+<div id="topic">
+	<button onclick="send(0)" class="selected">Mood</button>
+	<button onclick="send(1)">Water</button>
+</div>
+<svg id="graph" width="1160" height="220" style="border:1px solid #ccc"></svg>
+<script>
+	const but = document.querySelectorAll("button"); let s = 0;
+	function send(value) {s = value; draw();
+		parent.postMessage({ from: "graph", type: "setS", value }, "*");
+		let sel = document.querySelector(".selected");
+		sel.className = "";
+		but[value].className = "selected";
+	}
+	
+	const svg = document.getElementById("graph"), width = svg.clientWidth, height = svg.clientHeight-32; draw();
+
+	function draw(){svg.innerHTML = "";
+		const data = JSON.parse(localStorage.getItem("C"));
+		const barWidth = width / data.topic[s].length / 1.5;
+		const counts = Array(data.topic[s].length).fill(0);
+		data.color[s].forEach(num => {counts[num]++});
+		
+		const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		rect.setAttribute("x", 0);
+		rect.setAttribute("y", height + 8);
+		rect.setAttribute("width", width);
+		rect.setAttribute("height", 200);
+		rect.setAttribute("fill", "#101");
+		svg.appendChild(rect);
+		
+		data.topic[s].forEach((v, i) => {
+			const barHeight = (counts[i] / 371) * height; // normalize 0-9 to height
+			const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+			rect.setAttribute("x", i * barWidth*1.5 + 16);
+			rect.setAttribute("y", height - barHeight + 8);
+			rect.setAttribute("width", barWidth - 1);
+			rect.setAttribute("height", barHeight);
+			rect.setAttribute("fill", v[1]);
+			svg.appendChild(rect);
+			const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			text.setAttribute("x", i * barWidth*1.5 + 16 + barWidth / 2);
+			text.setAttribute("y", height + 24);
+			text.setAttribute("font-size", "16");
+			text.setAttribute("width", barWidth - 1);
+			text.setAttribute("text-anchor", "middle");
+			text.setAttribute("fill", "#ccc");
+			if (i==0){text.textContent = "Blank"+"("+counts[i]+")"} else {text.textContent += v[0]+"("+counts[i]+")"}
+			svg.appendChild(text);
+		});
+	}
+</script>
