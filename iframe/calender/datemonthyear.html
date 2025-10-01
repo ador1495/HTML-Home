@@ -54,7 +54,7 @@
 		display: flex;
 	}
 	week label {
-		border: 1px solid #222;
+		border: 1px solid #333;
 		margin: 4px;
 		height: 175px;
 		min-width: 34px;
@@ -62,7 +62,7 @@
 		font-size: 14px;
 	}
 	.holiday {
-		border-color: pink;
+		border-color: #000;
 	}
 	days {
 		position: absolute;
@@ -73,6 +73,18 @@
 		flex-wrap: wrap;
 	}
 	day {
+		display: flex;
+		justify-content: center;
+		margin-left: 11px;
+		margin-right: 11px;
+		margin-bottom: 6px;
+		height: 20px;
+		min-width: 20px;
+		background-color: #222222;
+		font-size: 16px;
+		border: 1px solid #121212;
+	}
+	fakeday {
 		display: flex;
 		justify-content: center;
 		margin-left: 11px;
@@ -228,9 +240,9 @@
 					<day>26</day>
 					<day>27</day>
 					<day>28</day>
-					<day></day>
-					<day></day>
-					<day></day>
+					<fakeday></fakeday>
+					<fakeday></fakeday>
+					<fakeday></fakeday>
 				</days>
 			</div>
 		</month>
@@ -324,7 +336,7 @@
 					<day>28</day>
 					<day>29</day>
 					<day>30</day>
-					<day></day>
+					<fakeday></fakeday>
 				</days>
 			</div>
 		</month>
@@ -418,7 +430,7 @@
 					<day>28</day>
 					<day>29</day>
 					<day>30</day>
-					<day></day>
+					<fakeday></fakeday>
 				</days>
 			</div>
 		</month>
@@ -559,7 +571,7 @@
 					<day>28</day>
 					<day>29</day>
 					<day>30</day>
-					<day></day>
+					<fakeday></fakeday>
 				</days>
 			</div>
 		</month>
@@ -653,7 +665,7 @@
 					<day>28</day>
 					<day>29</day>
 					<day>30</day>
-					<day></day>
+					<fakeday></fakeday>
 				</days>
 		  </div>
 		</month>
@@ -708,8 +720,7 @@
 </year>
 <script>
 	const incell = document.querySelector('#incell'), days = document.querySelectorAll('day'), daysin = document.getElementById("incelldate");
-	let color = [
-		9,8,7,6,5,4,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	let color = [[
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -720,764 +731,40 @@
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	],
+	[
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	]
 	]
 	const colorPlate = ["", "#fa412d", "#ff7769", "#ffa459", "#f7c631", "#d5a47d", "#4d6d2e", "#95b776", "#749bbf", "#26c2a3"];
-	let activekey = 0;
-	document.addEventListener("keydown", (e) => {if (/^[0-9]$/.test(e.key)) {activekey = parseInt(e.key)}; if(e.key == ".")(activekey = null)});
+	let activekey = 0 , s = 0, topic = [[["Mood", ""], ["Lost", "#960F00"], ["Painful", "#fa412d"], ["Tired", "#ff7769"], ["Distracted", "#ffa459"], ["Boring", "#95b776"], ["Obsessed", "#CC6CE7"], ["Determind", "#749bbf"], ["Romantic", "#FF05C0"], ["Achievement", "#26c2a3"]], [["Water", ""], ["1.5", "#fa412d"], ["2", "#f7c631"], ["2.5", "#95b776"], ["3", "#26c2a3"]]];
+	document.addEventListener("keydown", (e) => {if (/^[0-9]$/.test(e.key)) {if (parseInt(e.key) < topic[s].length){activekey = parseInt(e.key)}}; if(e.key == ".")(activekey = null)});
 	const data = JSON.parse(localStorage.getItem("C"));
 	if (data != null){color = data.color} else {save()}
-	for (let i = 0; i < color.length; i++){
-		days[i].style.borderColor = colorPlate[color[i]];
-	}
-	function save(){localStorage.setItem("C", JSON.stringify({ color }))};
+	function load(e) {s = e; for (let i = 0; i < color[s].length; i++){days[i].style.borderColor = topic[s][color[s][i]][1]}}; load(0);
+	function save(){localStorage.setItem("C", JSON.stringify({ color , topic }))};
 	days.forEach((day, index) => {
 		day.addEventListener('click', (e) => {
 			if (activekey != null) {
-				day.style.borderColor = colorPlate[activekey];
-				color[index] = activekey; save();
+				day.style.borderColor = topic[s][activekey][1];
+				color[s][index] = activekey; save();
 			}
 		})
 	})
-</script><style>
-	body {
-		margin: 0;
-		font-family: Arial, Helvetica, sans-serif;
-		background: #121212;
-		color: #e0e0e0;
-	}
-	button, input, select, textarea {
-		background-color: #222;
-		color: #eee;
-		border: 1px solid #444;
-		border-radius: 6px;
-		padding: 4px 6px;
-		font-size: 14px;
-	}
-	year {
-		display: flex;
-		flex-direction: column;
-		margin: 24px;
-		height: 725px;
-		width: 1300px;
-		border: 4px solid #888;
-		text-align: center;
-	}
-	year div {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-	year label {
-		margin: 8px;
-		font-size: 24px;
-	}
-	month {
-		display: flex;
-		flex-direction: column;
-		margin: 4px;
-		height: 215px;
-		min-width: 312px;
-		border: 2px solid white;
-		text-align: center;
-	}
-	month div {
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-		position: relative;
-	}
-	month label {
-		margin: 2px;
-		font-size: 16px;
-	}
-	week {
-		display: flex;
-	}
-	week label {
-		border: 1px solid #222;
-		margin: 4px;
-		height: 175px;
-		min-width: 34px;
-		text-align: center;
-		font-size: 14px;
-	}
-	.holiday {
-		border-color: pink;
-	}
-	days {
-		position: absolute;
-		bottom: 8px;
-		display: flex;
-		flex-direction: row;
-		max-width: 312px;
-		flex-wrap: wrap;
-	}
-	day {
-		display: flex;
-		justify-content: center;
-		margin-left: 11px;
-		margin-right: 11px;
-		margin-bottom: 6px;
-		height: 20px;
-		min-width: 20px;
-		background-color: #222222;
-		font-size: 16px;
-		border: 1px solid #121212;
-	}
-	.hide {
-		display: none;
-	}
-	.show {
-		display: flex;
-	}
-	box {
-		display: flex;
-		flex-direction: column;
-		width: 250px;
-		position: absolute;
-		border: 1px solid gray;
-		background-color: #111111;
-		z-index: 1000;
-	}
-	.even {
-		border-color: #777;
-	}
-	.odd {
-		border-color: #333;
-	}
-	box div label {
-		display: flex;
-		flex-direction: row;
-		margin: 4px;
-		position: relative;
-		width: 250px;
-		color: #e0e0e0;
-	}
-	box div label input {
-		float: right;
-		padding: 0px;
-		width: 64px;
-		border: none;
-		background-color: #141414;
-		position: absolute;
-		right: 12px;
-	}
-	box div label button {
-		color: orange;
-		text-weight: bold;
-		border: none;
-		padding: 0px;
-		margin-right: 8px;
-		margin-left: 8px;
-	}
-</style>
-<box id="incell" class="hide">
-	<input type="date" id="incelldate">
-	<div>
-		<label><button>| X |</button>Chess<input type="number"></label>
-	</div>
-</box>
-<year>
-	<label>2025</label>
-	<div>
-		<month m="1" class="odd">
-			<label>January</label>
-			<div>
-				<week>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-		<month m="2" class="even">
-			<label>Fabruary</label>
-			<div>
-				<week>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day></day>
-					<day></day>
-					<day></day>
-				</days>
-			</div>
-		</month>
-		<month m="3" class="odd">
-			<label>March</label>
-			<div>
-				<week>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-		<month m="4" class="even">
-		  <label>April</label>
-		  <div>
-				<week>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day></day>
-				</days>
-			</div>
-		</month>
-		<month m="5" class="even">
-			<label>May</label>
-			<div>
-				<week>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-		<month m="6" class="odd">
-			<label>June</label>
-			<div>
-				<week>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day></day>
-				</days>
-			</div>
-		</month>
-		<month m="7" class="even">
-		  <label>July</label>
-		  <div>
-				<week>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-		<month m="8" class="odd">
-			<label>August</label>
-			<div>
-				<week>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-		<month m="9" class="odd">
-		  <label>September</label>
-		  <div>
-				<week>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day></day>
-				</days>
-			</div>
-		</month>
-		<month m="10" class="even">
-		  <label>October</label>
-		  <div>
-				<week>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-		<month m="11" class="odd">
-		  <label>November</label>
-		  <div>
-			<week>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day></day>
-				</days>
-		  </div>
-		</month>
-		<month m="12" class="even">
-		  <label>December</label>
-		  <div>
-				<week>
-					<label>Mon</label>
-					<label>Tue</label>
-					<label>Wed</label>
-					<label>Thu</label>
-					<label class="holiday">Fri</label>
-					<label class="holiday">Sat</label>
-					<label>Sun</label>
-				</week>
-				<days>
-					<day>1</day>
-					<day>2</day>
-					<day>3</day>
-					<day>4</day>
-					<day>5</day>
-					<day>6</day>
-					<day>7</day>
-					<day>8</day>
-					<day>9</day>
-					<day>10</day>
-					<day>11</day>
-					<day>12</day>
-					<day>13</day>
-					<day>14</day>
-					<day>15</day>
-					<day>16</day>
-					<day>17</day>
-					<day>18</day>
-					<day>19</day>
-					<day>20</day>
-					<day>21</day>
-					<day>22</day>
-					<day>23</day>
-					<day>24</day>
-					<day>25</day>
-					<day>26</day>
-					<day>27</day>
-					<day>28</day>
-					<day>29</day>
-					<day>30</day>
-					<day>31</day>
-				</days>
-			</div>
-		</month>
-	</div>
-</year>
-<script>
-	const incell = document.querySelector('#incell'), days = document.querySelectorAll('day'), daysin = document.getElementById("incelldate");
-	let color = [
-		9,8,7,6,5,4,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-	]
-	const colorPlate = ["", "#fa412d", "#ff7769", "#ffa459", "#f7c631", "#d5a47d", "#4d6d2e", "#95b776", "#749bbf", "#26c2a3"];
-	let activekey = 0;
-	document.addEventListener("keydown", (e) => {if (/^[0-9]$/.test(e.key)) {activekey = parseInt(e.key)}; if(e.key == ".")(activekey = null)});
-	const data = JSON.parse(localStorage.getItem("C"));
-	if (data != null){color = data.color} else {save()}
-	for (let i = 0; i < color.length; i++){
-		days[i].style.borderColor = colorPlate[color[i]];
-	}
-	function save(){localStorage.setItem("C", JSON.stringify({ color }))};
-	days.forEach((day, index) => {
-		day.addEventListener('click', (e) => {
-			if (activekey != null) {
-				day.style.borderColor = colorPlate[activekey];
-				color[index] = activekey; save();
-			}
-		})
-	})
+	window.addEventListener("message", (event) => {
+		if (event.data.type === "setS") {load(event.data.value)}
+	});
 </script>
