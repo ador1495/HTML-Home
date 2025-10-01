@@ -15,6 +15,7 @@
 		font-size: 14px;
 	}
 	.progress-container {
+		position: relative;
 		margin: 8px;
 		min-width: 200px;
 		height: 12px;
@@ -22,22 +23,28 @@
 		border-radius: 5px;
 	}
 	.progress {
-		position: relative;
 		width: 0%;
 		height: 100%;
 		background-color: #555;
 		border-radius: 5px;
 		cursor: pointer;
 	}
-	dot {
+	marks {
+		display: flex;
+		flex-direction: column;
 		position: absolute;
-		left: calc(100% - 6px);
-		top: -25%;
-		min-width: 14px;
-		min-height: 14px;
-		background-color: #aaa;
-		border-radius: 50%;
-		border: 2px solid gray;
+		top: -8px;
+		height: 0px;
+	}
+	marks line {
+		width: 1px;
+		min-height: 32px;
+		background: #bbb;
+		border: 1px solid black;
+	}
+	marks label {
+		border: 1px solid #bbb;
+		transform: translateX(-50%);
 	}
 	left {
 		display: flex;
@@ -45,30 +52,127 @@
 		width: 100%;
 		height: 100%;
 	}
-	e3 {
-		max-height: 240px;
-		overflow: auto;
-		scrollbar-width: none;
-	}
-	step .input {
-		float: right;
-		padding: 0px;
-		width: 40px;
-		border: none;
-		background-color: #141414;
+	p {
+		margin-top: 80px;
 	}
 </style>
+
 <left>
-	<e3>
-		<step>
-			<input type="checkbox">
-			<label contenteditable="true">Step: </label>
-			<input type="Number" max="100" value="25" class="input">
-			<div class="progress-container">
-				<div id="progress1" class="progress">
-					<dot></dot>
-				</div>
-			</div>
-		</step>
-	</e3>
+	<label id="weather"></label>
+	<div class="progress-container">
+		<div id="progress" class="progress"></div>
+		<div id="mg">
+			<marks style="left: 430px;" class="">
+				<line></line>
+				<label contenteditable="true">13:00<br>Johr</label>
+			</marks>
+			<marks class="" style="left: 48px;">
+				<line></line>
+				<label contenteditable="true">05:00<br>Fajr</label>
+			</marks>
+			<marks class="" style="left: 610px;">
+				<line></line>
+				<label contenteditable="true">16:45<br>Asr</label>
+			</marks>
+			<marks class="" style="left: 669px;">
+				<line></line>
+				<label contenteditable="true">18:00<br>Magrib</label>
+			</marks>
+			<marks class="" style="left: 776px;">
+				<line></line>
+				<label contenteditable="true">20:15<br>Asa</label>
+			</marks>
+		</div>
+	</div>
+	<p contenteditable="true">?? => <br>## => <br>** => <br>!! => <br>^^ => </p>
+	<div></div>
 </left>
+
+<script>
+	const timeProgress = document.getElementById("progress"), timeContainer = document.querySelector(".progress-container"), p = document.querySelector("p");
+	p.addEventListener("blur", () => {localStorage.setItem("note", p.innerHTML)}); if (localStorage.getItem("note")) p.innerHTML = localStorage.getItem("note");
+	let markgroup = document.getElementById("mg");
+	if (localStorage.getItem("marks")) markgroup.innerHTML = localStorage.getItem("marks");
+	document.querySelectorAll('#mg label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)}); lab.addEventListener("click", () => {lab.parentNode.className="temp"})})
+	
+	function updateProgress(){
+		let time = new Date();
+		timeProgress.style.width = (((time.getHours() * 60) + time.getMinutes()) - 240)/12 + "%";
+	}
+	updateProgress(); let newMark = false;
+	timeContainer.addEventListener("mousedown", (e) => {
+		if (newMark){
+			const temp = document.querySelector('.temp');
+			if (temp) temp.className = "";
+			newMark = false;
+		} else {
+			let mg = document.querySelectorAll('#mg label'); newMark = true;
+			if (e.target == timeContainer || e.target == timeProgress){
+				const timeProgress = document.getElementById("progress");
+				const rect = timeProgress.getBoundingClientRect();
+				document.querySelector('#mg').innerHTML += `
+				<marks class="temp" style="left: ${e.clientX - rect.left}px;">
+					<line></line>
+					<label contenteditable="true"></label>
+				</marks>`;
+				document.querySelectorAll('#mg label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)}); lab.addEventListener("click", () => {lab.parentNode.className="temp"})})
+			}
+		}
+	})
+	timeContainer.addEventListener("mousemove", (e) => {console.log(e.target == timeContainer || e.target == timeProgress)
+		if (e.target == timeContainer || e.target == timeProgress){
+			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp');
+			if (temp){
+				temp.style.left = e.clientX - rect.left + "px";
+				let time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5, lab = document.querySelector(".temp label");
+				if (lab) {let i = lab.innerHTML.split("<br>"), j=""; if (i.length == 1) {j=i[0]} else {for (let k = 1; k<i.length; k++){j+=i[k]}}; lab.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}<br>${j}`}
+			}
+		}
+	})
+	const weatherLabel = document.getElementById('weather');
+	async function loadWeather() {
+	  // Example: Dhaka
+	  const lat = 23.8103;
+	  const lon = 90.4125;
+
+	  // Fetch current weather + hourly humidity + apparent temperature
+	  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m,apparent_temperature`;
+	  const res = await fetch(url);
+	  const data = await res.json();
+
+	  // Current weather
+	  const temp = data.current_weather.temperature;
+	  const wind = data.current_weather.windspeed;
+	  const code = data.current_weather.weathercode;
+	  const now = new Date();
+		const utcHour = now.getUTCHours();
+		const dayIndex = 0;
+		const hourIndex = dayIndex * 24 + utcHour;
+
+		const humidity = data.hourly.relativehumidity_2m[hourIndex];
+		const feelsLike = data.hourly.apparent_temperature[hourIndex];
+
+
+	  // Map weather code to description
+	  const conditions = {
+		0: "Clear sky ☀️",
+		1: "Mainly clear 🌤",
+		2: "Partly cloudy ⛅",
+		3: "Overcast ☁️",
+		45: "Fog 🌫", 48: "Rime fog 🌫",
+		51: "Light drizzle 🌦", 53: "Moderate drizzle 🌦", 55: "Dense drizzle 🌧",
+		56: "Light freezing drizzle ❄️", 57: "Dense freezing drizzle ❄️",
+		61: "Slight rain 🌧", 63: "Moderate rain 🌧", 65: "Heavy rain 🌧",
+		66: "Light freezing rain ❄️", 67: "Heavy freezing rain ❄️",
+		71: "Slight snowfall ❄️", 73: "Moderate snowfall ❄️", 75: "Heavy snowfall ❄️",
+		77: "Snow grains ❄️",
+		80: "Slight rain shower 🌦", 81: "Moderate rain shower 🌦", 82: "Violent rain shower 🌧",
+		85: "Slight snow shower ❄️", 86: "Heavy snow shower ❄️",
+		95: "Thunderstorm ⛈", 96: "Thunderstorm w/ slight hail ⛈", 99: "Thunderstorm w/ heavy hail ⛈"
+	  };
+
+	  const condition = conditions[code] || `Unknown (${code})`;
+	  weatherLabel.innerText = `Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
+	}
+	loadWeather();
+</script>
