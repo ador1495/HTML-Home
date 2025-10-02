@@ -43,8 +43,10 @@
 		border: 1px solid black;
 	}
 	marks label {
-		border: 1px solid #bbb;
+		border: 1px solid #333;
+		padding: 5px;
 		transform: translateX(-50%);
+		text-align: center;
 	}
 	left {
 		display: flex;
@@ -52,8 +54,29 @@
 		width: 100%;
 		height: 100%;
 	}
-	p {
-		margin-top: 80px;
+	t {
+		display: flex;
+		margin-top: 76px;
+		gap: 16px;
+		height: 200px;
+		width: 950px;
+		max-width: 950px;
+		overflow: auto;
+		scrollbar-width: none;
+	}
+	t div {
+		border: 1px solid gray;
+		display: flex;
+		flex-direction: column;
+		width: 135px;
+		padding: 2px;
+		gap: 4px;
+		text-align: center;
+	}
+	t div h {
+		margin-bottom: 6px;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 </style>
 
@@ -84,22 +107,53 @@
 			</marks>
 		</div>
 	</div>
-	<p contenteditable="true">?? => <br>## => <br>** => <br>!! => <br>^^ => </p>
+	<t tabindex="0"></t>
 	<div></div>
 </left>
 
 <script>
-	const timeProgress = document.getElementById("progress"), timeContainer = document.querySelector(".progress-container"), p = document.querySelector("p");
-	p.addEventListener("blur", () => {localStorage.setItem("note", p.innerHTML)}); if (localStorage.getItem("note")) p.innerHTML = localStorage.getItem("note");
-	let markgroup = document.getElementById("mg");
+	const timeProgress = document.getElementById("progress"), timeContainer = document.querySelector(".progress-container"), p = document.querySelector("t"); let t = [];
+	if (localStorage.getItem("note")) {t = JSON.parse(localStorage.getItem("note")).t; t.forEach(text => {
+		const filename = text.split("\\").pop().split(".")[0], script = document.createElement("script");;
+		p.insertAdjacentHTML("beforeend", `
+			<div class="file-block fb-${filename}">
+				<h contenteditable="true" class="th">${filename}</h> 
+				<label class="tl tl${filename}">01 0:00 360</label>
+				<input class="ti ti${filename}">
+				<label>File Path: <button onclick="navigator.clipboard.writeText('${text}')">Copy</button></label>
+			</div>
+		`);
+		script.src = text; script.dataset.t = filename; p.appendChild(script);
+		script.onerror = () => { const block = p.querySelector(`.fb-${filename}`);
+			if (block) block.remove(); t = t.filter(item => item !== text); localStorage.setItem("note", JSON.stringify({ t }));
+		};
+	})}
+	p.addEventListener('paste', (e) => {e.preventDefault();
+		let text = e.clipboardData.getData("text"); text = text.replace(/^"(.*)"$/, "$1");
+		if (text.endsWith(".js") && !t.includes(text)) {
+			const filename = text.split("\\").pop().split(".")[0], script = document.createElement("script");;
+			p.insertAdjacentHTML("beforeend", `
+				<div class="file-block fb-${filename}">
+					<h contenteditable="true" class="th">${filename}</h> 
+					<label class="tl tl${filename}">01 0:00 360</label>
+					<input class="ti ti${filename}">
+					<label>File Path: <button onclick="navigator.clipboard.writeText('${text}')">Copy</button></label>
+				</div>
+			`);
+			script.src = text; script.dataset.t = filename; p.appendChild(script);
+			script.onerror = () => {const block = p.querySelector(`.fb-${filename}`);if (block) block.remove()} 
+			script.onload = () => {t.push(text); localStorage.setItem("note", JSON.stringify({ t }))}
+		}
+	});
+	let markgroup = document.getElementById("mg"), newMark = false;
 	if (localStorage.getItem("marks")) markgroup.innerHTML = localStorage.getItem("marks");
 	document.querySelectorAll('#mg label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)}); lab.addEventListener("click", () => {lab.parentNode.className="temp"})})
 	
 	function updateProgress(){
 		let time = new Date();
-		timeProgress.style.width = (((time.getHours() * 60) + time.getMinutes()) - 240)/12 + "%";
+		timeProgress.style.width = (((time.getHours() * 60) + time.getMinutes()) - 240)/12 + 1 + "%";
 	}
-	updateProgress(); let newMark = false;
+	updateProgress(); document.addEventListener("visibilitychange", () => updateProgress());
 	timeContainer.addEventListener("mousedown", (e) => {
 		if (newMark){
 			const temp = document.querySelector('.temp');
@@ -119,7 +173,7 @@
 			}
 		}
 	})
-	timeContainer.addEventListener("mousemove", (e) => {console.log(e.target == timeContainer || e.target == timeProgress)
+	timeContainer.addEventListener("mousemove", (e) => {
 		if (e.target == timeContainer || e.target == timeProgress){
 			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp');
 			if (temp){
