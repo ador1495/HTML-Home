@@ -339,10 +339,18 @@
 			this.h = Math.floor(this.t / 3600);
 			this.render();
 		}
+		SWget() {
+			return [this.s1, this.t];
+		}
 		render() {
 			const pad = n => String(n).padStart(2, "0");
 			this.el.innerText = `${pad(this.h)}:${pad(this.m)}:${pad(this.s)}`;
 		}
 	}
-	const sw = new Watch(document.getElementById("sw"));
+	const sw = new Watch(document.getElementById("sw")); let swval = 0;
+	window.addEventListener("message", (event) => {swval = sw.SWget();
+		if (event.data.from === "SWTime") {
+			parent.postMessage({ from: "dw" , value: swval }, "*");
+		}
+	});
 </script>
