@@ -7,16 +7,15 @@
 		background-color: #141414;
 	}
 	button, input, select, textarea {
-		background-color: #222;
+		background-color: #121212;
 		color: #eee;
-		border: 1px solid #444;
-		border-radius: 6px;
+		border: none;
 		padding: 4px 6px;
 		font-size: 14px;
 	}
 	.progress-container {
+		margin-top: 16px;
 		position: relative;
-		margin: 8px;
 		min-width: 200px;
 		height: 12px;
 		background: #222222;
@@ -29,12 +28,20 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+	markrange {
+		position: absolute;
+		top: 8px;
+		width: 100%;
+		height: 12px;
+		background: #ccc;
+	}
 	marks {
+		position: absolute;
+	}
+	point {
 		display: flex;
 		flex-direction: column;
 		position: absolute;
-		top: -8px;
-		height: 0px;
 	}
 	marks line {
 		width: 1px;
@@ -42,11 +49,25 @@
 		background: #bbb;
 		border: 1px solid black;
 	}
-	marks label {
+	marks div {
+		display: flex;
+		flex-direction: column;
 		border: 1px solid #333;
 		padding: 5px;
 		transform: translateX(-50%);
 		text-align: center;
+	}
+	endpoint {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		bottom: -32px;
+		right: 0%;
+		transform: translateX(100%);
+	}
+	#mg {
+		position: absolute;
+		top: -8px;
 	}
 	left {
 		display: flex;
@@ -78,6 +99,12 @@
 		white-space: nowrap;
 		overflow: hidden;
 	}
+	.hide {
+		display: none;
+	}
+	.show {
+		display: flex;
+	}
 </style>
 
 <left>
@@ -85,25 +112,19 @@
 	<div class="progress-container">
 		<div id="progress" class="progress"></div>
 		<div id="mg">
-			<marks style="left: 430px;" class="">
-				<line></line>
-				<label contenteditable="true">13:00<br>Johr</label>
-			</marks>
-			<marks class="" style="left: 48px;">
-				<line></line>
-				<label contenteditable="true">05:00<br>Fajr</label>
-			</marks>
-			<marks class="" style="left: 610px;">
-				<line></line>
-				<label contenteditable="true">16:45<br>Asr</label>
-			</marks>
-			<marks class="" style="left: 669px;">
-				<line></line>
-				<label contenteditable="true">18:00<br>Magrib</label>
-			</marks>
-			<marks class="" style="left: 776px;">
-				<line></line>
-				<label contenteditable="true">20:15<br>Asa</label>
+			<marks class="" style="left: 776px; width: 100px">
+				<markrange class="hide"></markrange>
+				<point>
+					<line></line>
+					<div>
+						<button>20:15</button>
+						<label contenteditable="true">Esha</label>
+					</div>
+				</point>
+				<endpoint class="hide">
+					<div class="ep">20:45</div>
+					<line></line>
+				</endpoint>
 			</marks>
 		</div>
 	</div>
@@ -145,44 +166,66 @@
 			script.onload = () => {t.push(text); localStorage.setItem("note", JSON.stringify({ t }))}
 		}
 	});
-	let markgroup = document.getElementById("mg"), newMark = false;
+	let markgroup = document.getElementById("mg"), newMark = false, drag = false;
 	if (localStorage.getItem("marks")) markgroup.innerHTML = localStorage.getItem("marks");
-	document.querySelectorAll('#mg label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)}); lab.addEventListener("click", () => {lab.parentNode.className="temp"})})
+	document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)})})
+	document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 	
 	function updateProgress(){
 		let time = new Date();
 		timeProgress.style.width = (((time.getHours() * 60) + time.getMinutes()) - 240)/12 + 1 + "%";
 	}
 	updateProgress(); document.addEventListener("visibilitychange", () => updateProgress());
-	timeContainer.addEventListener("mousedown", (e) => {
-		if (newMark){
-			const temp = document.querySelector('.temp');
-			if (temp) temp.className = "";
-			newMark = false;
-		} else {
-			let mg = document.querySelectorAll('#mg label'); newMark = true;
-			if (e.target == timeContainer || e.target == timeProgress){
-				const timeProgress = document.getElementById("progress");
-				const rect = timeProgress.getBoundingClientRect();
-				document.querySelector('#mg').innerHTML += `
-				<marks class="temp" style="left: ${e.clientX - rect.left}px;">
-					<line></line>
-					<label contenteditable="true"></label>
-				</marks>`;
-				document.querySelectorAll('#mg label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)}); lab.addEventListener("click", () => {lab.parentNode.className="temp"})})
-			}
-		}
-	})
-	timeContainer.addEventListener("mousemove", (e) => {
+	timeContainer.addEventListener("dblclick", (e) => {
 		if (e.target == timeContainer || e.target == timeProgress){
-			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp');
-			if (temp){
-				temp.style.left = e.clientX - rect.left + "px";
-				let time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5, lab = document.querySelector(".temp label");
-				if (lab) {let i = lab.innerHTML.split("<br>"), j=""; if (i.length == 1) {j=i[0]} else {for (let k = 1; k<i.length; k++){j+=i[k]}}; lab.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}<br>${j}`}
-			}
+			const timeProgress = document.getElementById("progress");//${e.clientX - rect.left}
+			const rect = timeProgress.getBoundingClientRect(), time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5;
+			document.querySelector('#mg').innerHTML += `
+			<marks class="" style="left: ${e.clientX - rect.left}px; width: 100px">
+				<markrange class="hide"></markrange>
+				<point>
+					<line></line>
+					<div>
+						<button>${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}</button>
+						<label contenteditable="true">_</label>
+					</div>
+				</point>
+				<endpoint class="hide">
+					<div class="ep">${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}</div>
+					<line></line>
+				</endpoint>
+			</marks>
+			`;
+			document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)})})
+			document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 		}
 	})
+	document.addEventListener("mousedown", function(e) {let temp = document.querySelectorAll('.temp');if (temp!=null) {if(!e.target.closest('.temp div')){document.querySelectorAll('.temp .show').forEach(h => h.className="hide"); temp.className=""}}});
+	document.addEventListener("mouseup", () => drag = false)
+	document.addEventListener("wheel", function(e) {e.preventDefault(); let temp = document.querySelectorAll('.temp'); if (temp) {let line = document.querySelector('.temp point line'); let h = parseInt(window.getComputedStyle(line).height); h += e.deltaY > 0 ? 10 : -10; if (h < 32) h = 32; line.style.height = h + "px";}}, { passive: false });
+	let x1 = 0, x2 = 0;
+	document.addEventListener("mousemove", (e) => {
+		if(e.target.className == "ep"){
+			x1 = e.pageX;
+			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp');
+			if (drag && x2 != null && temp){
+				temp.style.width = parseInt(temp.style.width) + x1 - x2 + "px";
+				let time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5, lab = document.querySelector(".temp point button");
+				e.target.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
+			}
+			x2 = e.pageX;
+		} else {x1 = e.pageX;
+			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp');
+			if (drag && x2 != null && temp){
+				temp.style.left = parseInt(temp.style.left) + x1 - x2 + "px";
+				let time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5, lab = document.querySelector(".temp point button");
+				lab.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+				time = (((e.clientX - rect.left + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5;
+				document.querySelector('.temp endpoint div').innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
+			}
+			x2 = e.pageX;
+		}
+	});
 	const weatherLabel = document.getElementById('weather');
 	async function loadWeather() {
 	  // Example: Dhaka
@@ -226,7 +269,7 @@
 	  };
 
 	  const condition = conditions[code] || `Unknown (${code})`;
-	  weatherLabel.innerText = `Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
+	  weatherLabel.innerText = `${now.getDay()}/${now.getMonth()}/2025 Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
 	}
 	loadWeather();
 </script>
