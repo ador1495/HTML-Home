@@ -142,13 +142,12 @@
 		margin-right: 8px;
 		margin-left: 8px;
 	}
+	#incell {
+		position: absolute;
+		z-index: 100;
+	}
 </style>
-<box id="incell" class="hide">
-	<input type="date" id="incelldate">
-	<div>
-		<label><button>| X |</button>Chess<input type="number"></label>
-	</div>
-</box>
+<textarea class="hide" id="incell"></textarea>
 <year>
 	<label>2025</label>
 	<div>
@@ -750,17 +749,29 @@
 	]
 	]
 	const colorPlate = ["", "#fa412d", "#ff7769", "#ffa459", "#f7c631", "#d5a47d", "#4d6d2e", "#95b776", "#749bbf", "#26c2a3"];
-	let activekey = 0 , s = 0, topic = [[["Mood", ""], ["Lost", "#960F00"], ["Painful", "#fa412d"], ["Tired", "#ff7769"], ["Distracted", "#ffa459"], ["Boring", "#95b776"], ["Obsessed", "#CC6CE7"], ["Determind", "#749bbf"], ["Romantic", "#FF05C0"], ["Achievement", "#26c2a3"]], [["Water", ""], ["1.5", "#fa412d"], ["2", "#f7c631"], ["2.5", "#95b776"], ["3", "#26c2a3"]]];
-	document.addEventListener("keydown", (e) => {if (/^[0-9]$/.test(e.key)) {if (parseInt(e.key) < topic[s].length){activekey = parseInt(e.key)}}; if(e.key == ".")(activekey = null)});
+	let inputonwork = false, activekey = null , s = 0, topic = [[["Mood", ""], ["Lost", "#960F00"], ["Painful", "#fa412d"], ["Tired", "#ff7769"], ["Distracted", "#ffa459"], ["Boring", "#95b776"], ["Obsessed", "#CC6CE7"], ["Determind", "#749bbf"], ["Romantic", "#FF05C0"], ["Achievement", "#26c2a3"]], [["Water", ""], ["1.5", "#fa412d"], ["2", "#f7c631"], ["2.5", "#95b776"], ["3", "#26c2a3"]]];
+	document.addEventListener("keydown", (e) => {if (/^[0-9]$/.test(e.key) && !inputonwork) {if (parseInt(e.key) < topic[s].length){activekey = parseInt(e.key)}}; if(e.key == ".")(activekey = null)});
 	const data = JSON.parse(localStorage.getItem("C"));
 	if (data != null){color = data.color} else {save()}
 	function load(e) {s = e; for (let i = 0; i < color[s].length; i++){days[i].style.borderColor = topic[s][color[s][i]][1]}}; load(0);
 	function save(){localStorage.setItem("C", JSON.stringify({ color , topic }))};
+	const now = new Date(); const dd = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+	let incelltxt = []; for (let i = 0; i<365; i++){incelltxt.push("")}
+	if (localStorage.getItem("incell")) incelltxt = JSON.parse(localStorage.getItem("incell")).incelltxt;
 	days.forEach((day, index) => {
 		day.addEventListener('click', (e) => {
 			if (activekey != null) {
 				day.style.borderColor = topic[s][activekey][1];
 				color[s][index] = activekey; save();
+			} else {inputonwork = true;
+				incell.className = "show";
+				incell.value = incelltxt[dd];
+				incell.style.left = e.pageX;
+				incell.style.top = e.pageY;
+				incell.focus();
+				incell.addEventListener("blur", function(){inputonwork = false;
+					incell.className = "hide"; incelltxt[dd] = incell.value; localStorage.setItem("incell", JSON.stringify({ incelltxt }));
+				})
 			}
 		})
 	})
