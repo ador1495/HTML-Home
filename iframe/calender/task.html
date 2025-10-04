@@ -112,20 +112,20 @@
 	<div class="progress-container">
 		<div id="progress" class="progress"></div>
 		<div id="mg">
-			<marks class="" style="left: 776px; width: 100px">
-				<markrange class="hide"></markrange>
-				<point>
-					<line></line>
-					<div>
-						<button>20:15</button>
-						<label contenteditable="true">Esha</label>
-					</div>
-				</point>
-				<endpoint class="hide">
-					<div class="ep">20:45</div>
-					<line></line>
-				</endpoint>
-			</marks>
+			<!-- <marks class="" style="left: 776px; width: 100px"> -->
+				<!-- <markrange class="hide"></markrange> -->
+				<!-- <point> -->
+					<!-- <line></line> -->
+					<!-- <div> -->
+						<!-- <button>20:15</button> -->
+						<!-- <label contenteditable="true">Esha</label> -->
+					<!-- </div> -->
+				<!-- </point> -->
+				<!-- <endpoint class="hide"> -->
+					<!-- <div class="ep">20:45</div> -->
+					<!-- <line></line> -->
+				<!-- </endpoint> -->
+			<!-- </marks> -->
 		</div>
 	</div>
 	<t tabindex="0"></t>
@@ -133,7 +133,12 @@
 </left>
 
 <script>
-	const timeProgress = document.getElementById("progress"), timeContainer = document.querySelector(".progress-container"), p = document.querySelector("t"); let t = [];
+	let sd = [];
+	for (let i = 0; i < 366; i++) {
+	  sd.push([]);
+	}
+	const timeProgress = document.getElementById("progress"), timeContainer = document.querySelector(".progress-container"), rect = timeContainer.getBoundingClientRect(), p = document.querySelector("t"), now = new Date(); const dd = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)), markgroup = document.getElementById("mg"); let t = [];
+	//localStorage.removeItem('marks');
 	if (localStorage.getItem("note")) {t = JSON.parse(localStorage.getItem("note")).t; t.forEach(text => {
 		const filename = text.split("\\").pop().split(".")[0], script = document.createElement("script");;
 		p.insertAdjacentHTML("beforeend", `
@@ -166,9 +171,9 @@
 			script.onload = () => {t.push(text); localStorage.setItem("note", JSON.stringify({ t }))}
 		}
 	});
-	let markgroup = document.getElementById("mg"), newMark = false, drag = false;
-	if (localStorage.getItem("marks")) markgroup.innerHTML = localStorage.getItem("marks");
-	document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)})})
+	let newMark = false, drag = false; console.log(JSON.parse(localStorage.getItem("marks")))
+	if (localStorage.getItem("marks")) JSON.parse(localStorage.getItem("marks")).sd[dd].forEach(e => loaddata(e))
+	document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove()})})
 	document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 	
 	function updateProgress(){
@@ -178,16 +183,16 @@
 	updateProgress(); document.addEventListener("visibilitychange", () => updateProgress());
 	timeContainer.addEventListener("dblclick", (e) => {
 		if (e.target == timeContainer || e.target == timeProgress){
-			const timeProgress = document.getElementById("progress");//${e.clientX - rect.left}
-			const rect = timeProgress.getBoundingClientRect(), time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5;
-			document.querySelector('#mg').innerHTML += `
+			const timeProgress = document.getElementById("progress");
+			const time = (((e.clientX - rect.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(Math.floor(time%60)/5)*5;
+			markgroup.innerHTML += `
 			<marks class="" style="left: ${e.clientX - rect.left}px; width: 100px">
 				<markrange class="hide"></markrange>
 				<point>
 					<line></line>
 					<div>
 						<button>${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}</button>
-						<label contenteditable="true">_</label>
+						<label contenteditable="true"></label>
 					</div>
 				</point>
 				<endpoint class="hide">
@@ -196,13 +201,51 @@
 				</endpoint>
 			</marks>
 			`;
-			document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove();localStorage.setItem("marks", markgroup.innerHTML)})})
+			document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") { lab.parentNode.parentNode.parentNode.remove(); sd[dd] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd }))}})})
 			document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 		}
 	})
-	document.addEventListener("mousedown", function(e) {let temp = document.querySelectorAll('.temp');if (temp!=null) {if(!e.target.closest('.temp div')){document.querySelectorAll('.temp .show').forEach(h => h.className="hide"); temp.className=""}}});
+	document.addEventListener("mousedown", function(e) {let temp = document.querySelector('.temp');if (temp!=null) {if(!e.target.closest('.temp div')){document.querySelectorAll('.temp .show').forEach(h => h.className="hide"); sd[dd] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd })); temp.className=""}}});
 	document.addEventListener("mouseup", () => drag = false)
-	document.addEventListener("wheel", function(e) {e.preventDefault(); let temp = document.querySelectorAll('.temp'); if (temp) {let line = document.querySelector('.temp point line'); let h = parseInt(window.getComputedStyle(line).height); h += e.deltaY > 0 ? 10 : -10; if (h < 32) h = 32; line.style.height = h + "px";}}, { passive: false });
+	document.addEventListener("wheel", function(e) {e.preventDefault(); let temp = document.querySelector('.temp'); if (temp) {let line = document.querySelector('.temp point line'); let h = parseInt(window.getComputedStyle(line).height); h += e.deltaY > 0 ? 10 : -10; if (h < 32) h = 33; if (h > 280) h = 280; line.style.height = h + "px";}}, { passive: false });
+	function savedata(){let data = [];
+		const marks = document.querySelectorAll("marks");
+		marks.forEach(mark => {
+			const st = mark.querySelector('div button').innerHTML;
+			const et = mark.querySelector('.ep').innerHTML;
+			const h = parseInt(window.getComputedStyle(mark.querySelector('line')).height);
+			let tst = mark.querySelector('label').innerHTML.split("<br>"); tst = tst.filter(item => item !== "");
+			data.push([st, et, h, ...tst])
+		})
+		return data;
+	}
+	function margeText(e){ let marge = "";
+		for (let i = 3; i < e.length; i++) {
+			marge += e[i] + "<br>";
+		}
+		return marge;
+	}
+	function loaddata(e) {
+		let time = Number(e[0].split(":")[0])*60 + Number(e[0].split(":")[1]), time2 = Number(e[1].split(":")[0])*60 + Number(e[1].split(":")[1]); console.log(time, time2, e)
+		markgroup.innerHTML += `
+		<marks class="" style="left: ${((time - 240)/1200)*rect.width}px; width: ${((time2-time)/1200)*rect.width}px">
+			<markrange class="hide"></markrange>
+			<point>
+				<line style="height: ${e[2]}px"></line>
+				<div>
+					<button>${e[0]}</button>
+					<label contenteditable="true">${margeText(e)}</label>
+				</div>
+			</point>
+			<endpoint class="hide">
+				<div class="ep">${e[1]}</div>
+				<line></line>
+			</endpoint>
+		</marks>
+		`;
+		document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") {lab.parentNode.parentNode.parentNode.remove(); sd[dd] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd }))}})})
+		document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
+	}
 	let x1 = 0, x2 = 0;
 	document.addEventListener("mousemove", (e) => {
 		if(e.target.className == "ep"){
@@ -241,7 +284,6 @@
 	  const temp = data.current_weather.temperature;
 	  const wind = data.current_weather.windspeed;
 	  const code = data.current_weather.weathercode;
-	  const now = new Date();
 		const utcHour = now.getUTCHours();
 		const dayIndex = 0;
 		const hourIndex = dayIndex * 24 + utcHour;
@@ -269,7 +311,7 @@
 	  };
 
 	  const condition = conditions[code] || `Unknown (${code})`;
-	  weatherLabel.innerText = `${now.getDay()}/${now.getMonth()}/2025 Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
+	  weatherLabel.innerText = `Day [ ${dd} ]: Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
 	}
 	loadWeather();
 </script>
