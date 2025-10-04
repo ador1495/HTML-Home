@@ -1,0 +1,107 @@
+<style>
+  body {
+    margin: 0;
+    background: #111;
+    font-family: Arial, sans-serif;
+  }
+  table {
+    width: 1000px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #0008;
+  }
+  thead tr,
+  tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  thead tr {
+    background: #121111;
+  }
+  tbody {
+    display: block;
+    max-height: 230px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  tbody::-webkit-scrollbar {
+    display: none;
+  }
+  th, td {
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 17px;
+    padding: 9px 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  th {
+    color: #bbb;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background: #151517;
+  }
+  .icon-cell {
+    width: 110px;
+  }
+  .icon-cell img {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
+    display: block;
+  }
+  .name-cell {
+    font-weight: 600;
+    font-size: 1.12em;
+    color: #aaa;
+    width: 190px;
+    letter-spacing: 0.5px;
+  }
+  .numbers {
+    font-size: 1em;
+  }
+  .numbers span {
+    display: block;
+    font-size: 0.99em;
+    color: #bbb;
+    line-height: 1.02;
+  }
+  .numbers1 {
+    width: 350px;
+  }
+  .numbers2 {
+    width: 350px;
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th class="icon-cell">Icon</th>
+      <th class="name-cell">Name</th>
+      <th class="numbers1">Per Day Works</th>
+      <th class="numbers2">Total Works</th>
+    </tr>
+  </thead>
+  <tbody>
+	<tr class="new">
+      <td class="icon-cell"><img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Icon1" /></td>
+      <td class="name-cell" contenteditable="true">Add Task</td>
+      <td class="numbers numbers1"><span>Commit( 0 )</span><span>Time: 0 min</span></td>
+      <td class="numbers numbers2"><span>Commit( 0 )</span><span>Time: 0 min</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+	const newEntry = document.querySelector('.new name-cell');
+	newEntry.addEventListener("change" function(){
+		
+	})
+</script>
