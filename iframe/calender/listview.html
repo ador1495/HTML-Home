@@ -172,7 +172,59 @@
 			}
 		}
 		newEntry.value = "Add Task";
-	})
+	});
+	let t = [];
+	document.addEventListener('dragover', (e)=> e.preventDefault())
+	document.addEventListener('drop', (e) => {
+		e.preventDefault();
+		const files = e.dataTransfer.files;
+		Array.from(files).forEach(file => {
+			if (file.type.startsWith('image/')) {
+				const reader = new FileReader();
+				reader.onload = function(evt) {
+					if (!t.includes(file.name)) {
+						t.push(file.name);
+						const fileNameNoExt = file.name.split('.').slice(0, -1).join('.') || file.name;
+						newEntry.value = fileNameNoExt;
+						const data = addtopic(newEntry.value), day = data[0];
+						const newRow = document.createElement('listrow');
+						newRow.className = 'prep';
+						newRow.innerHTML = `
+							<img class="icon" src="${evt.target.result}">
+							<input class="name" value="${newEntry.value}">
+							<label class="list lr"><span>${data[1]/day} Commit / Day${day}</span><span>${data[2]/day} Minute</span></label>
+							<label class="list lr"><span>${data[1]} Commit</span><span>${data[2]} Minute</span></label>
+						`;
+						list.insertBefore(newRow, createNewBefore);
+
+						// Set up input blur/removal logic as in your paste handler
+						const input = newRow.querySelector('input');
+						input.addEventListener('blur', function() {
+							if (input.value === "") {
+							  newRow.remove();
+							}
+						});
+
+						// Enhance labels as in your paste handler
+						const label = newRow.querySelectorAll('label'), main = data[3];
+						for (let i = 0; i < main.length; i++) {
+							const span = document.createElement('span');
+							span.innerHTML = `${main[i][0]} = ${main[i][1]}`;
+							label[1].appendChild(span);
+						}
+						for (let i = 0; i < main.length; i++) {
+							const span = document.createElement('span');
+							span.innerHTML = `${main[i][0]} = ${(main[i][1]/day)}`;
+							label[0].appendChild(span);
+						}
+						newRow.className = "present";
+					}
+				};
+				reader.readAsDataURL(file);
+			}
+		});
+	});
+
 	
 	function addtopic(txt){ let tempTopic = []; totalDays = 0; totalCommit = 0; totalMinute = 0, additional = [], subtopic = [];
 		for (let i = 0; i < 366; i++) {let update = false;
