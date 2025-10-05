@@ -109,6 +109,13 @@
 		z-index: 100;
 		background: #111;
 	}
+	.task {
+		width: 50px;
+		height: 50px;
+		background-size: cover;
+		background-position: center;
+		color: transparent;
+	}
 </style>
 
 <left>
@@ -142,10 +149,25 @@
 	const timeProgress = document.getElementById("progress"), timeContainer = document.querySelector(".progress-container"), rect = timeContainer.getBoundingClientRect(), now = new Date(); const dd = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)), markgroup = document.getElementById("mg"); let de = 0, ep = false;
 	//localStorage.removeItem('marks');
 	let newMark = false, drag = false;
+	//document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove()})})
+	//document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
+	
+	
+	let iclist = ["brilliant"], iclink = ["brilliant.webp"];
+	iclist.forEach((i, j) => {pushStyle(i, j)})
+	function pushStyle(i, j){
+		let style = document.createElement("style");
+		style.innerHTML = `
+			.${i}-task {
+				background-image: url('${iclink[j]}');
+			}
+		`;
+		document.head.appendChild(style);
+	}
+	
+	
 	if (localStorage.getItem("marks")) loadmarks(dd); sd = JSON.parse(localStorage.getItem("marks")).sd;
 	function loadmarks(e){ markgroup.innerHTML = ""; JSON.parse(localStorage.getItem("marks")).sd[e].forEach(e => loaddata(e)) }
-	document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove()})})
-	document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 	
 	function updateProgress(){
 		let time = new Date();
@@ -172,7 +194,7 @@
 				</endpoint>
 			</marks>
 			`;
-			document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") { lab.parentNode.parentNode.parentNode.remove(); sd[dd+de] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd }))}})})
+			document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") {lab.parentNode.parentNode.parentNode.remove(); sd[dd+de] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd }))}; for (let i = 0; i<iclist.length; i++){if(lab.innerText.split('\n')[0].trim() == iclist[i]){lab.className=`task ${iclist[i]}-task`; lab.addEventListener("focus", ()=>{lab.className=""})}}})})
 			document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 		}
 	})
@@ -196,8 +218,10 @@
 		}
 		return marge;
 	}
+	
 	function loaddata(e) {
-		let time = Number(e[0].split(":")[0])*60 + Number(e[0].split(":")[1]), time2 = Number(e[1].split(":")[0])*60 + Number(e[1].split(":")[1]);
+		let time = Number(e[0].split(":")[0])*60 + Number(e[0].split(":")[1]), time2 = Number(e[1].split(":")[0])*60 + Number(e[1].split(":")[1]), icon = null;
+		for (let i = 0; i<iclist.length; i++){if(e[3] == iclist[i]){icon=`task ${iclist[i]}-task`}}
 		markgroup.innerHTML += `
 		<marks class="" style="left: ${((time - 240)/1200)*rect.width}px; width: ${((time2-time)/1200)*rect.width}px">
 			<markrange class="hide"></markrange>
@@ -205,7 +229,7 @@
 				<line style="height: ${e[2]}px"></line>
 				<div>
 					<button>${e[0]}</button>
-					<label contenteditable="true">${margeText(e)}</label>
+					<label contenteditable="true" class="${icon}">${margeText(e)}</label>
 				</div>
 			</point>
 			<endpoint class="hide">
@@ -214,8 +238,8 @@
 			</endpoint>
 		</marks>
 		`;
-		document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") {lab.parentNode.parentNode.parentNode.remove(); sd[dd+de] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd }))}})})
-		document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
+		document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") {lab.parentNode.parentNode.parentNode.remove(); sd[dd+de] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd }))}; for (let i = 0; i<iclist.length; i++){if(lab.innerText.split('\n')[0].trim() == iclist[i]){lab.className=`task ${iclist[i]}-task`; lab.addEventListener("focus", ()=>{lab.className=""})}}})})
+		document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 	}
 	let x1 = 0, x2 = 0;
 	document.addEventListener("mousemove", (e) => {
