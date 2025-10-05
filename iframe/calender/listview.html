@@ -1,10 +1,13 @@
 <style>
-  body {
+  body, html {
     margin: 0;
-    background: #111;
+    background: #171717;
     font-family: Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	scrollbar-width: none;
   }
-  table {
+  ldiv {
     width: 1000px;
     border-collapse: separate;
     border-spacing: 0;
@@ -13,22 +16,22 @@
     overflow: hidden;
     box-shadow: 0 0 10px #0008;
   }
-  thead tr,
-  tbody tr {
+  h tr,
+  b tr {
     display: table;
     width: 100%;
     table-layout: fixed;
   }
-  thead tr {
+  h tr {
     background: #121111;
   }
-  tbody {
+  b {
     display: block;
     max-height: 230px;
     overflow-y: auto;
     scrollbar-width: none;
   }
-  tbody::-webkit-scrollbar {
+  b::-webkit-scrollbar {
     display: none;
   }
   th, td {
@@ -46,7 +49,7 @@
     color: #bbb;
     font-weight: bold;
     letter-spacing: 1px;
-    background: #151517;
+    background: #020203;
   }
   .icon-cell {
     width: 110px;
@@ -79,29 +82,122 @@
   .numbers2 {
     width: 350px;
   }
+  listhead {
+	background: #090909;
+	display: flex;
+	padding: 10px 16px;
+  }
+  listrow {
+	display: flex;
+	background: #131313;
+	padding: 10px 16px;
+  }
+  .icon {
+	width: 50px;
+	height: 50px;
+  }
+  .ic {
+	width: 50px;
+  }
+  .name {
+	width: 234px;
+  }
+  .list {
+	width: 350px;
+	display: flex;
+	flex-direction: column;
+  }
+  label {
+	text-align: center;
+    justify-content: center;
+    font-size: 17px;
+    box-sizing: border-box;
+	color: #ccc;
+  }
+  input {
+	color: #ccc;
+	text-align: center;
+    vertical-align: middle;
+	border: none;
+	background: #131313;
+	font-size: 20px;
+	height: 50px;
+  }
 </style>
-<table>
-  <thead>
-    <tr>
-      <th class="icon-cell">Icon</th>
-      <th class="name-cell">Name</th>
-      <th class="numbers1">Per Day Works</th>
-      <th class="numbers2">Total Works</th>
-    </tr>
-  </thead>
-  <tbody>
-	<tr class="new">
-      <td class="icon-cell"><img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Icon1" /></td>
-      <td class="name-cell" contenteditable="true">Add Task</td>
-      <td class="numbers numbers1"><span>Commit( 0 )</span><span>Time: 0 min</span></td>
-      <td class="numbers numbers2"><span>Commit( 0 )</span><span>Time: 0 min</span></td>
-    </tr>
-  </tbody>
-</table>
+
+<listhead>
+	<label class="ic">Icon</label>
+	<label class="name">Name</label>
+	<label class="list">Per Day</label>
+	<label class="list">Total</label>
+</listhead>
+<listbody>
+	<br class="nbr">
+	<listrow class="new">
+		<img class="icon">
+		<input class="name" value="Add Task">
+		<label class="list lr"><span>0 Commit / Day0</span><span>0 Minute</span></label>
+		<label class="list lr"><span>0 Commit</span><span>0 Minute</span></label>
+	</listrow>
+</listbody>
 
 <script>
-	const newEntry = document.querySelector('.new name-cell');
-	newEntry.addEventListener("change" function(){
-		
+	let sd; if (localStorage.getItem("marks")) sd = JSON.parse(localStorage.getItem("marks")).sd;
+	const createNewBefore = document.querySelector('.nbr'), newEntry = document.querySelector('.new input'), list = document.querySelector('listbody');
+	newEntry.addEventListener("click", function(){
+		newEntry.value = "";
 	})
+	newEntry.addEventListener("blur", function(){
+		if (newEntry.value!=""){
+			const data = addtopic(newEntry.value), day = data[0];
+			const newRow = document.createElement('listrow'); newRow.className = 'prep';
+			newRow.innerHTML = `
+				<img class="icon">
+				<input class="name" value="${newEntry.value}">
+				<label class="list lr"><span>${data[1]/day} Commit / Day${day}</span><span>${data[2]/day} Minute</span></label>
+				<label class="list lr"><span>${data[1]} Commit</span><span>${data[2]} Minute</span></label>
+			`;
+			list.insertBefore(newRow, createNewBefore);
+			const presentRows = list.querySelectorAll('.present'); presentRows.forEach(row => {const input = row.querySelector('input'); input.addEventListener('blur', function() {if (input.value === "") {row.remove()}})});
+			const row = list.querySelector('.prep'); row.className = "present"; const label = row.querySelectorAll('label'), main = data[3];
+			for (let i = 0; i < main.length; i++){
+				const span = document.createElement('span');
+				span.innerHTML = `${main[i][0]} = ${main[i][1]}`;
+				label[1].appendChild(span);
+			}
+			for (let i = 0; i < main.length; i++){
+				const span = document.createElement('span');
+				span.innerHTML = `${main[i][0]} = ${(main[i][1]/day)}`;
+				label[0].appendChild(span);
+			}
+		}
+		newEntry.value = "Add Task";
+	})
+	
+	function addtopic(txt){ let tempTopic = []; totalDays = 0; totalCommit = 0; totalMinute = 0, additional = [], subtopic = [];
+		for (let i = 0; i < 366; i++) {let update = false;
+			for (let j = 0; j < sd[i].length; j++){let up = false;
+				for (let k = 3; k < sd[i][j].length; k++){ let v = sd[i][j];
+					if (up) {if(v[k][0] == "=") {additional.push(v[k])} else {subtopic.push(v[k])}}
+					if (v[k] == txt){up = true; tempTopic.push([i, ...v]); totalCommit++; update = true; totalMinute += (Number(v[1].split(":")[0])*60 + Number(v[1].split(":")[1])) - (Number(v[0].split(":")[0])*60 + Number(v[0].split(":")[1]))}
+				}
+			}
+			if (update) totalDays++;
+		}
+		let sorted = filter(additional); return [totalDays, totalCommit, totalMinute, sorted];
+	}
+	function filter(arr){
+		const result = {};
+		const regex = /(\d+)([a-zA-Z]+)/g;
+		arr.forEach(str => {
+		  let matches;
+		  while ((matches = regex.exec(str)) !== null) {
+			const value = Number(matches[1]);
+			const topic = matches[2];
+			result[topic] = (result[topic] || 0) + value;
+		  }
+		});
+		const sorted = Object.entries(result).sort((a, b) => a[0].localeCompare(b[0]));
+		return sorted;
+	}
 </script>
