@@ -141,48 +141,11 @@
 	<label class="list">Per Day</label>
 	<label class="list">Total</label>
 </listhead>
-<listbody>
-	<!-- <br class="nbr"> -->
-	<!-- <listrow class="new"> -->
-		<!-- <img class="icon"> -->
-		<!-- <input class="name" value="Add Task"> -->
-		<!-- <label class="list lr"><span>0 Commit / Day0</span><span>0 Minute</span></label> -->
-		<!-- <label class="list lr"><span>0 Commit</span><span>0 Minute</span></label> -->
-	<!-- </listrow> -->
-</listbody>
+<listbody></listbody>
 
 <script>
 	let sd;
 	const createNewBefore = document.querySelector('.nbr'), newEntry = document.querySelector('.new input'), list = document.querySelector('listbody');
-	<!-- newEntry.addEventListener("click", function(){ -->
-		<!-- newEntry.value = ""; -->
-	<!-- }) -->
-	<!-- newEntry.addEventListener("blur", function(){ -->
-		<!-- if (newEntry.value!=""){ -->
-			<!-- const data = addtopic(newEntry.value), day = data[0]; -->
-			<!-- const newRow = document.createElement('listrow'); newRow.className = 'prep'; -->
-			<!-- newRow.innerHTML = ` -->
-				<!-- <img class="icon"> -->
-				<!-- <input class="name" value="${newEntry.value}"> -->
-				<!-- <label class="list lr"><span>${data[1]/day} Commit / Day${day}</span><span>${data[2]/day} Minute</span></label> -->
-				<!-- <label class="list lr"><span>${data[1]} Commit</span><span>${data[2]} Minute</span></label> -->
-			<!-- `; -->
-			<!-- list.insertBefore(newRow, createNewBefore); -->
-			<!-- const presentRows = list.querySelectorAll('.present'); presentRows.forEach(row => {const input = row.querySelector('input'); input.addEventListener('blur', function() {if (input.value === "") {row.remove()}})}); -->
-			<!-- const row = list.querySelector('.prep'); row.className = "present"; const label = row.querySelectorAll('label'), main = data[3]; -->
-			<!-- for (let i = 0; i < main.length; i++){ -->
-				<!-- const span = document.createElement('span'); -->
-				<!-- span.innerHTML = `${main[i][0]} = ${main[i][1]}`; -->
-				<!-- label[1].appendChild(span); -->
-			<!-- } -->
-			<!-- for (let i = 0; i < main.length; i++){ -->
-				<!-- const span = document.createElement('span'); -->
-				<!-- span.innerHTML = `${main[i][0]} = ${(main[i][1]/day)}`; -->
-				<!-- label[0].appendChild(span); -->
-			<!-- } -->
-		<!-- } -->
-		<!-- newEntry.value = "Add Task"; -->
-	<!-- }); -->
 	document.addEventListener('dragover', (e)=> e.preventDefault())
 	document.addEventListener('drop', (e) => {
 		e.preventDefault(); document.querySelectorAll('.present').forEach(t => t.remove());
@@ -202,16 +165,12 @@
 						<label class="list lr"><span>${data[1]} Commit</span><span>${data[2]} Minute</span></label>
 					`;
 					list.insertBefore(newRow, createNewBefore);
-
-					// Set up input blur/removal logic as in your paste handler
 					const input = newRow.querySelector('input');
 					input.addEventListener('blur', function() {
 						if (input.value === "") {
 						  newRow.remove();
 						}
 					});
-
-					// Enhance labels as in your paste handler
 					const label = newRow.querySelectorAll('label'), main = data[3];
 					for (let i = 0; i < main.length; i++) {
 						const span = document.createElement('span');
