@@ -144,8 +144,6 @@
 			<!-- </marks> -->
 		</div>
 	</div>
-	<t tabindex="0"></t>
-	<div></div>
 </left>
 
 <script>
@@ -170,13 +168,13 @@
 	}
 	
 	
-	if (localStorage.getItem("marks")) loadmarks(dd); sd = JSON.parse(localStorage.getItem("marks")).sd;
+	if (localStorage.getItem("marks")) sd = JSON.parse(localStorage.getItem("marks")).sd, loadmarks(dd);
 	window.addEventListener("message", (event) => {
 		if (event.data.from === "listviewdrop") {
 			iclist=event.data.n; iclink=event.data.f; iclist.forEach((i, j) => {pushStyle(i, j)}); loadmarks(dd); console.log("loaded", event.data.n, event.data.f)
 		}
 	});
-	function loadmarks(e){ markgroup.innerHTML = ""; JSON.parse(localStorage.getItem("marks")).sd[e].forEach(e => loaddata(e)) }
+	function loadmarks(e){ markgroup.innerHTML = ""; sd[e].forEach(e => loaddata(e)) }
 	
 	function updateProgress(){
 		let time = new Date();
@@ -315,42 +313,41 @@
 	  };
 
 	  const condition = conditions[code] || `Unknown (${code})`;
-	  weatherLabel.innerText = `[ ${dd+de} ] Today Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
+	  weatherLabel.innerText = `[ ${dd+de} ]: Today Weather Condition is ${condition} ${temp}°C , ${wind} km/h wind , ${humidity}% humidity Feels like ${feelsLike}°C`;
 	}
 	loadWeather();
 	document.addEventListener("keydown", (e)=>{
 		if (e.key == "ArrowRight"){
-			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp'), epp = document.querySelector('.temp .ep');
-			if (temp) {
+			const temp = markgroup.querySelector('.temp');
+			if (temp) {const rect = timeContainer.getBoundingClientRect(), epp = temp.querySelector('.ep');
 				if(ep){
 					temp.style.width = parseInt(temp.style.width) + 1 + "px";
-					let time = (((parseInt(temp.style.left) + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = document.querySelector(".temp point button");
-					epp.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`; console.log(epp.innerHTML)
+					let time = (((parseInt(temp.style.left) + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = temp.querySelector("point button");
+					epp.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 				} else {
 					temp.style.left = parseInt(temp.style.left) + 1 + "px";
-					let time = ((parseInt(temp.style.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = document.querySelector(".temp point button");
+					let time = ((parseInt(temp.style.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = temp.querySelector("point button");
 					lab.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 					time = (((parseInt(temp.style.left) + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60);
 					epp.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
 				}
-			} else {de++; loadmarks(dd+de), loadWeather()}
+			} else {de++; loadmarks(dd+de), weatherLabel.innerText = `[ ${dd+de} ]:${weatherLabel.innerText.split(":")[1]}`}
 		}
-		if (e.key == "ArrowLeft"){ console.log("work")
-			const rect = timeContainer.getBoundingClientRect(), temp = document.querySelector('.temp'), epp = document.querySelector('.temp .ep');
-			if (temp) {
+		if (e.key == "ArrowLeft"){
+			const temp = markgroup.querySelector('.temp');
+			if (temp) {const rect = timeContainer.getBoundingClientRect(), epp = temp.querySelector('.ep');
 				if(ep){
 					temp.style.width = parseInt(temp.style.width) - 1 + "px";
-					let time = (((parseInt(temp.style.left) + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = document.querySelector(".temp point button");
+					let time = (((parseInt(temp.style.left) + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = temp.querySelector("point button");
 					epp.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
 				} else {
 					temp.style.left = parseInt(temp.style.left) - 1 + "px";
-					let time = ((parseInt(temp.style.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = document.querySelector(".temp point button");
+					let time = ((parseInt(temp.style.left)/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60), lab = temp.querySelector("point button");
 					lab.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 					time = (((parseInt(temp.style.left) + parseInt(temp.style.width))/rect.width*100)*12)+240, hour = Math.floor(time/60), minute = Math.floor(time%60);
 					epp.innerHTML = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
 				}
-			} else {de--; loadmarks(dd+de), loadWeather()}
+			} else {de--; loadmarks(dd+de), weatherLabel.innerText = `[ ${dd+de} ]:${weatherLabel.innerText.split(":")[1]}`}
 		}
 	})
 </script>
-
