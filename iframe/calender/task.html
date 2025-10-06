@@ -152,8 +152,7 @@
 	//document.querySelectorAll('#mg point div label').forEach(lab => {lab.addEventListener('blur', ()=>{lab.parentNode.parentNode.parentNode.className="";if (lab.innerText.trim() == "") lab.parentNode.parentNode.parentNode.remove()})})
 	//document.querySelectorAll('#mg div').forEach(d => {d.addEventListener("mousedown", () => {let temp = document.querySelector('.temp'); if(temp) document.querySelectorAll('.temp .show').forEach(h => h.className="hide"), temp.className=""; d.parentNode.parentNode.className="temp"; let hide = document.querySelectorAll(".temp .hide"); hide.forEach(h => h.className="show"); drag = true})})
 	
-	
-	let iclist = ["brilliant"], iclink = ["brilliant.webp"];
+	let iclist = [], iclink = [];
 	iclist.forEach((i, j) => {pushStyle(i, j)})
 	function pushStyle(i, j){
 		let style = document.createElement("style");
@@ -167,6 +166,11 @@
 	
 	
 	if (localStorage.getItem("marks")) loadmarks(dd); sd = JSON.parse(localStorage.getItem("marks")).sd;
+	window.addEventListener("message", (event) => {
+		if (event.data.from === "listviewdrop") {
+			iclist=event.data.n; iclink=event.data.f; iclist.forEach((i, j) => {pushStyle(i, j)}); loadmarks(dd); console.log("loaded", event.data.n, event.data.f)
+		}
+	});
 	function loadmarks(e){ markgroup.innerHTML = ""; JSON.parse(localStorage.getItem("marks")).sd[e].forEach(e => loaddata(e)) }
 	
 	function updateProgress(){
@@ -200,7 +204,7 @@
 	})
 	document.addEventListener("mousedown", function(e) {let temp = document.querySelector('.temp'); ep = false; if(e.target.closest('.ep')) ep = true;if (temp!=null) {if(!e.target.closest('.temp div')){document.querySelectorAll('.temp .show').forEach(h => h.className="hide"); sd[dd+de] = savedata(); localStorage.setItem("marks", JSON.stringify({ sd })); temp.className=""}}});
 	document.addEventListener("mouseup", () => drag = false)
-	document.addEventListener("wheel", function(e) {e.preventDefault(); let temp = document.querySelector('.temp'); if (temp) {let line = document.querySelector('.temp point line'); let h = parseInt(window.getComputedStyle(line).height); h += e.deltaY > 0 ? 10 : -10; if (h < 32) h = 33; if (h > 280) h = 280; line.style.height = h + "px";}}, { passive: false });
+	document.addEventListener("wheel", function(e) {e.preventDefault(); let temp = document.querySelector('.temp'); if (temp) {let line = document.querySelector('.temp point line'); let h = parseInt(window.getComputedStyle(line).height); h += e.deltaY > 0 ? 10 : -10; if (h < 32) h = 33; if (h > 260) h = 260; line.style.height = h + "px";}}, { passive: false });
 	function savedata(){let data = [];
 		const marks = document.querySelectorAll("marks");
 		marks.forEach(mark => {
