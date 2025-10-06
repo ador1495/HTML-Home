@@ -3,6 +3,8 @@
 		display: flex;
 		flex-direction: column;
 		width: 150px;
+		overflow: auto;
+		scrollbar-width: none;
 	}
 	button {
 		background: #222;
@@ -22,6 +24,11 @@
 		margin: 4px;
 		margin-left: 10px;
 	}
+	label {
+		margin: 8px;
+		color: #ccc;
+		font-size: 16px;
+	}
 </style>
 <div id="topic">
 	<button onclick="send(0)" class="selected">Mood</button>
@@ -29,12 +36,75 @@
 </div>
 <svg id="graph" width="1160" height="220" style="border:1px solid #ccc"></svg>
 <script>
-	const but = document.querySelectorAll("button"); let s = 0;
+	const transpose = arr => arr[0].map((_, colIndex) => arr.map(row => row[colIndex]));
+	let but = document.querySelectorAll("button"), div = document.querySelector('#topic'), s = 0;
 	function send(value) {s = value; draw();
 		parent.postMessage({ from: "graph", type: "setS", value }, "*");
-		let sel = document.querySelector(".selected");
-		sel.className = "";
+		let sel = document.querySelector(".selected"); sel.className = "";
 		but[value].className = "selected";
+	}
+	let index = 2, list=[], typelist = new Set(["Day", "Commit", "Minute"]);
+	window.addEventListener("message", (event) => {
+		if (event.data.from === "listview") {
+			let newdiv = document.querySelectorAll('[new]'); if(newdiv.length) newdiv.forEach(elm => elm.remove());
+			newList(event.data.t, event.data.n);
+		}
+	});
+	function newList(datas, name){list = [];
+		datas.forEach((t, i) => {list.push([]);
+			let Data = addtopic(t);
+			list[i].push(Data[0], Data[1], Data[2]);
+			for (let j = 0; j < Data[3].length; j++) {list[i].push(Data[3][j][1]), typelist.add(Data[3][j][0])}
+			console.log(t, list[i], Data)
+		})
+		let tlist = transpose(list);
+		drawnew(datas, tlist[0]);
+		
+		const label = document.createElement('label');
+		label.setAttribute('new', '');
+		label.textContent = name.toUpperCase();
+		div.appendChild(label);
+
+		typelist.forEach(t => {
+			const button = document.createElement('button');
+			button.setAttribute('new', '');
+			button.setAttribute('preface', '');
+			button.textContent = t;
+			div.appendChild(button);
+		});
+		
+		index++; but = document.querySelectorAll("button"); let preface = document.querySelectorAll('[preface]');
+		preface.forEach( (buts, i) => { buts.addEventListener('click', () => {let sel = document.querySelector(".selected"); sel.className = "";
+			drawnew(datas, tlist[i]); parent.postMessage({ from: "graph", type: "setS", value: 2 }, "*"); buts.className = "selected";
+		}), buts.removeAttribute("preface")});
+	}
+	let sd;
+	function addtopic(txt){sd = JSON.parse(localStorage.getItem("marks")).sd;
+		let tempTopic = []; totalDays = 0; totalCommit = 0; totalMinute = 0, additional = [], subtopic = new Set();
+		for (let i = 0; i < 366; i++) {let update = false;
+			for (let j = 0; j < sd[i].length; j++){let up = false, done = true;
+				for (let k = 3; k < sd[i][j].length; k++){ let v = sd[i][j];
+					if (up) {if(v[k][0] == "=") {additional.push(v[k])} else {if (done) subtopic.add(v[k]), done = false}}
+					if (v[k] == txt){up = true; tempTopic.push([i, ...v]); totalCommit++; update = true; totalMinute += (Number(v[1].split(":")[0])*60 + Number(v[1].split(":")[1])) - (Number(v[0].split(":")[0])*60 + Number(v[0].split(":")[1]))}
+				}
+			}
+			if (update) totalDays++;
+		}
+		let sorted = filter(additional); return [totalDays, totalCommit, totalMinute, sorted, [...subtopic]];
+	}
+	function filter(arr){
+		const result = {};
+		const regex = /(\d+)([a-zA-Z]+)/g;
+		arr.forEach(str => {
+		  let matches;
+		  while ((matches = regex.exec(str)) !== null) {
+			const value = Number(matches[1]);
+			const topic = matches[2];
+			result[topic] = (result[topic] || 0) + value;
+		  }
+		});
+		const sorted = Object.entries(result).sort((a, b) => a[0].localeCompare(b[0]));
+		return sorted;
 	}
 	
 	const svg = document.getElementById("graph"), width = svg.clientWidth, height = svg.clientHeight-32; draw();
@@ -70,6 +140,39 @@
 			text.setAttribute("text-anchor", "middle");
 			text.setAttribute("fill", "#ccc");
 			if (i==0){text.textContent = "Blank"+"("+counts[i]+")"} else {text.textContent += v[0]+"("+counts[i]+")"}
+			svg.appendChild(text);
+		});
+	}
+	function drawnew(tl, l){svg.innerHTML = "";
+		const barWidth = width / tl.length / 1.5;
+		let tt = 0; l.forEach(L => tt+=L)
+		
+		const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		rect.setAttribute("x", 0);
+		rect.setAttribute("y", height + 8);
+		rect.setAttribute("width", width);
+		rect.setAttribute("height", 200);
+		rect.setAttribute("fill", "#101");
+		svg.appendChild(rect);
+		
+		tl.forEach((v, i) => {
+			const barHeight = (l[i] / tt) * height; // normalize 0-9 to height
+			const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+			rect.setAttribute("x", i * barWidth*1.5 + 16);
+			rect.setAttribute("y", height - barHeight + 8);
+			rect.setAttribute("width", barWidth - 1);
+			rect.setAttribute("height", barHeight);
+			rect.setAttribute("fill", "gray");
+			svg.appendChild(rect);
+			rect.addEventListener("dblclick", function(){const data = addtopic(v); if (data[4].length) newList(data[4], v)})
+			const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			text.setAttribute("x", i * barWidth*1.5 + 16 + barWidth / 2);
+			text.setAttribute("y", height + 24);
+			text.setAttribute("font-size", "16");
+			text.setAttribute("width", barWidth - 1);
+			text.setAttribute("text-anchor", "middle");
+			text.setAttribute("fill", "#ccc");
+			text.textContent += v+"("+l[i]+")";
 			svg.appendChild(text);
 		});
 	}
