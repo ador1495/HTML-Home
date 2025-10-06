@@ -47,15 +47,15 @@
 	window.addEventListener("message", (event) => {
 		if (event.data.from === "listview") {
 			let newdiv = document.querySelectorAll('[new]'); if(newdiv.length) newdiv.forEach(elm => elm.remove());
+			sd = JSON.parse(localStorage.getItem("marks")).sd;
 			newList(event.data.t, event.data.n);
 		}
 	});
-	function newList(datas, name){list = [];
+	function newList(datas, name){list = []; 
 		datas.forEach((t, i) => {list.push([]);
 			let Data = addtopic(t);
 			list[i].push(Data[0], Data[1], Data[2]);
 			for (let j = 0; j < Data[3].length; j++) {list[i].push(Data[3][j][1]), typelist.add(Data[3][j][0])}
-			console.log(t, list[i], Data)
 		})
 		let tlist = transpose(list);
 		drawnew(datas, tlist[0]);
@@ -79,7 +79,7 @@
 		}), buts.removeAttribute("preface")});
 	}
 	let sd;
-	function addtopic(txt){sd = JSON.parse(localStorage.getItem("marks")).sd;
+	function addtopic(txt){
 		let tempTopic = []; totalDays = 0; totalCommit = 0; totalMinute = 0, additional = [], subtopic = new Set();
 		for (let i = 0; i < 366; i++) {let update = false;
 			for (let j = 0; j < sd[i].length; j++){let up = false, done = true;
