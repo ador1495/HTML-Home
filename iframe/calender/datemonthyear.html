@@ -749,13 +749,13 @@
 	]
 	]
 	const colorPlate = ["", "#fa412d", "#ff7769", "#ffa459", "#f7c631", "#d5a47d", "#4d6d2e", "#95b776", "#749bbf", "#26c2a3"];
-	let inputonwork = false, activekey = null , s = 0, topic = [[["Mood", ""], ["Lost", "#960F00"], ["Painful", "#fa412d"], ["Tired", "#ff7769"], ["Distracted", "#ffa459"], ["Boring", "#95b776"], ["Obsessed", "#CC6CE7"], ["Determind", "#749bbf"], ["Romantic", "#FF05C0"], ["Achievement", "#26c2a3"]], [["Water", ""], ["1.5", "#fa412d"], ["2", "#f7c631"], ["2.5", "#95b776"], ["3", "#26c2a3"]]];
+	let inputonwork = false, activekey = null , s = 0, topic = [[["Mood", ""], ["Lost", "#960F00"], ["Painful", "#fa412d"], ["Tired", "#ff7769"], ["Distracted", "#ffa459"], ["Boring", "#95b776"], ["Obsessed", "#CC6CE7"], ["Determind", "#749bbf"], ["Romantic", "#FF05C0"], ["Achievement", "#26c2a3"]], [["Water", ""], ["1.5", "#fa412d"], ["2", "#f7c631"], ["2.5", "#95b776"], ["3", "#26c2a3"]], [["0",""],["1","#26c2a3"]]]
 	document.addEventListener("keydown", (e) => {if (/^[0-9]$/.test(e.key) && !inputonwork) {if (parseInt(e.key) < topic[s].length){activekey = parseInt(e.key)}}; if(e.key == ".")(activekey = null)});
 	const data = JSON.parse(localStorage.getItem("C"));
 	if (data != null){color = data.color} else {save()}
-	function load(e) {s = e; for (let i = 0; i < color[s].length; i++){days[i].style.borderColor = topic[s][color[s][i]][1]}}; load(0);
+	const now = new Date(); const dd = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)); days[dd].style.borderColor = '#aaa';
+	function load(e) { s = e; for (let i = 0; i < color[s].length; i++){days[i].style.borderColor = topic[s][color[s][i]][1]}; if(color[s][dd]==0) days[dd].style.borderColor = '#aaa'}; load(0);
 	function save(){localStorage.setItem("C", JSON.stringify({ color , topic }))};
-	const now = new Date(); const dd = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
 	let incelltxt = []; for (let i = 0; i<365; i++){incelltxt.push("")}
 	if (localStorage.getItem("incell")) incelltxt = JSON.parse(localStorage.getItem("incell")).incelltxt;
 	days.forEach((day, index) => {
@@ -777,5 +777,17 @@
 	})
 	window.addEventListener("message", (event) => {
 		if (event.data.type === "setS") {load(event.data.value)}
+		if (event.data.from === "listview") {let sd = JSON.parse(localStorage.getItem("marks")).sd, temp = []; for(let i=0;i<365;i++){temp.push(0)}
+			for (let i = 0; i < 365; i++) {
+				for (let j = 0; j < sd[i].length; j++){
+					for (let k = 3; k < sd[i][j].length; k++){ let v = sd[i][j];
+						if(v[k] == event.data.n) {temp[i] = 1}
+					}
+				}
+			}
+			console.log(temp.length, days.length)
+			if (color[2] == null) {color.push(temp)} else {color[2] = temp}; load(2);
+			//for (let i = 0; i < temp.length; i++){days[i].style.borderColor = topic[s][temp[i]][1]}
+		}
 	});
 </script>
