@@ -347,10 +347,5 @@
 			this.el.innerText = `${pad(this.h)}:${pad(this.m)}:${pad(this.s)}`;
 		}
 	}
-	const sw = new Watch(document.getElementById("sw")); let swval = 0;
-	window.addEventListener("message", (event) => {swval = sw.SWget();
-		if (event.data.from === "SWTime") {
-			parent.postMessage({ from: "dw" , value: swval }, "*");
-		}
-	});
+	const sw = new Watch(document.getElementById("sw"));
 </script>
