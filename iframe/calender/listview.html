@@ -148,14 +148,22 @@
 	const createNewBefore = document.querySelector('.nbr'), newEntry = document.querySelector('.new input'), list = document.querySelector('listbody');
 	document.addEventListener('dragover', (e)=> e.preventDefault())
 	document.addEventListener('drop', (e) => {
-		e.preventDefault(); document.querySelectorAll('.present').forEach(t => t.remove());
+		let n = [], f = [];
+		e.preventDefault();
+		document.querySelectorAll('.present').forEach(t => t.remove());
 		const files = e.dataTransfer.files;
+
+		let imagesToLoad = Array.from(files).filter(file => file.type.startsWith('image/')).length;
+		if (imagesToLoad === 0) return;
+
 		Array.from(files).forEach(file => {
 			if (file.type.startsWith('image/')) {
 				const reader = new FileReader();
 				reader.onload = function(evt) {
 					const fileNameNoExt = file.name.split('.').slice(0, -1).join('.') || file.name;
 					const data = addtopic(fileNameNoExt), day = data[0];
+					f.push(evt.target.result);
+					n.push(fileNameNoExt);
 					const newRow = document.createElement('listrow');
 					newRow.className = 'prep';
 					newRow.innerHTML = `
@@ -182,26 +190,31 @@
 						span.innerHTML = `${main[i][0]} = ${(main[i][1]/day)}`;
 						label[0].appendChild(span);
 					}
-					newRow.className = "present";
+					newRow.addEventListener("dblclick", function(){
+						parent.postMessage({ from: "listview", n: fileNameNoExt, t: data[4] }, "*");
+					})
+					newRow.className = "present"; imagesToLoad--;
+					if (imagesToLoad === 0) {
+						parent.postMessage({ from: "listviewdrop", n: n, f: f }, "*");
+					}
 				};
 				reader.readAsDataURL(file);
 			}
 		});
 	});
-
 	
 	function addtopic(txt){sd = JSON.parse(localStorage.getItem("marks")).sd;
-		let tempTopic = []; totalDays = 0; totalCommit = 0; totalMinute = 0, additional = [], subtopic = [];
+		let tempTopic = []; totalDays = 0; totalCommit = 0; totalMinute = 0, additional = [], subtopic = new Set();
 		for (let i = 0; i < 366; i++) {let update = false;
-			for (let j = 0; j < sd[i].length; j++){let up = false;
+			for (let j = 0; j < sd[i].length; j++){let up = false, done = true;
 				for (let k = 3; k < sd[i][j].length; k++){ let v = sd[i][j];
-					if (up) {if(v[k][0] == "=") {additional.push(v[k])} else {subtopic.push(v[k])}}
+					if (up) {if(v[k][0] == "=") {additional.push(v[k])} else {if (done) subtopic.add(v[k]), done = false}}
 					if (v[k] == txt){up = true; tempTopic.push([i, ...v]); totalCommit++; update = true; totalMinute += (Number(v[1].split(":")[0])*60 + Number(v[1].split(":")[1])) - (Number(v[0].split(":")[0])*60 + Number(v[0].split(":")[1]))}
 				}
 			}
 			if (update) totalDays++;
 		}
-		let sorted = filter(additional); return [totalDays, totalCommit, totalMinute, sorted];
+		let sorted = filter(additional); return [totalDays, totalCommit, totalMinute, sorted, [...subtopic]];
 	}
 	function filter(arr){
 		const result = {};
